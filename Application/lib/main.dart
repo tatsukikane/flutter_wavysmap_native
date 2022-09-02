@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_wavysmap_native/video_editor/video_editor.dart';
+import 'auth/auth_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,9 +16,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    const VideoEditor_app(),
+    const ProviderScope(child: MyApp()),
   );
 }
+
+/// Providerの初期化 デモ
+// final counterProvider = StateNotifierProvider.autoDispose<Counter, int>((ref) {
+//   return Counter();
+// });
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -27,74 +35,147 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
+      debugShowCheckedModeBanner: false, //debug非表示
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class MyHomePage extends ConsumerWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  //firestore用
-  final db = FirebaseFirestore.instance;
-
-  //firestore内のデータを取得し、デコードする関数
-  void getstore() async{
-    // print("ここ");
-    await db.collection("messages").doc("LnejSZiJx86FaYQEQwMk").get().then((event) {
-      //firestoreのkey:value型のデータ
-      var result = event.data();
-      //valueのみを抽出
-      var value = result!['original'];
-      //valueをMAPとして使えるようデコード
-      var valueMap = jsonDecode(value);
-      //対象のデータを取得できることを確認
-      print("ここ");
-      print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
+  Widget build(BuildContext context, WidgetRef ref){
+    //ユーザー情報の取得
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if(user == null) {
+        ref.watch(userEmailProvider.state).state = 'ログインしていません';
+      } else {
+        ref.watch(userEmailProvider.state).state = user.email!;
+      }
     });
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Homepage'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(10),
+        children: <Widget>[
+          //ユーザー情報の表示
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.person),
+              Text(ref.watch(userEmailProvider)),
+            ],
+          ),
+
+          /// ページ遷移
+          const _PagePushButton(
+            buttonTitle: '認証ページ',
+            pagename: AuthPage(),
+          ),
+
+        ],
+      ),
+    );
+  }
 }
 
+/// ページ遷移のボタン
+class _PagePushButton extends StatelessWidget {
+  const _PagePushButton({
+    Key? key,
+    required this.buttonTitle,
+    required this.pagename,
+  }) : super(key: key);
 
-@override
-  void initState() {
-    // TODO: implement initState
-    getstore();
-    super.initState();
-  }
-
+  final String buttonTitle;
+  final dynamic pagename;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return ElevatedButton(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Text(buttonTitle),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'yobidasi',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => pagename),
+        );
+      },
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+//firestoreデータ取得
+// class _MyHomePageState extends State<MyHomePage> {
+//   //firestore用
+//   final db = FirebaseFirestore.instance;
+
+//   //firestore内のデータを取得し、デコードする関数
+//   void getstore() async{
+//     // print("ここ");
+//     await db.collection("messages").doc("LnejSZiJx86FaYQEQwMk").get().then((event) {
+//       //firestoreのkey:value型のデータ
+//       var result = event.data();
+//       //valueのみを抽出
+//       var value = result!['original'];
+//       //valueをMAPとして使えるようデコード
+//       var valueMap = jsonDecode(value);
+//       //対象のデータを取得できることを確認
+//       print("ここ");
+//       print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
+//     });
+// }
+
+
+// @override
+//   void initState() {
+//     // TODO: implement initState
+//     getstore();
+//     super.initState();
+//   }
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(widget.title),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             const Text(
+//               'You have pushed the button this many times:',
+//             ),
+//             Text(
+//               'yobidasi',
+//               style: Theme.of(context).textTheme.headline4,
+//             ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: null,
+//         tooltip: 'Increment',
+//         child: const Icon(Icons.add),
+//       ), 
+//     );
+//   }
+// }

@@ -37,12 +37,15 @@ dependencies:
   firebase_core: ^1.21.0
   cloud_firestore: ^3.4.5
   firebase_storage: ^10.3.6
+  firebase_auth: ^3.7.0
+
 
   video_editor:
     path: ../video_editor_package
   helpers: ^1.1.4
   image_picker: ^0.8.5+3
   video_player: ^2.4.5
+  flutter_riverpod: ^1.0.4
 
 dev_dependencies:
   flutter_test:
