@@ -6,9 +6,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_wavysmap_native/realtime_database/realtime_database_page.dart';
 import 'package:flutter_wavysmap_native/video_editor/video_editor.dart';
+import 'package:flutter_wavysmap_native/video_upload/video_upload.dart';
 import 'auth/auth_page.dart';
 import 'firebase_options.dart';
+import 'firestore/firestore_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +78,18 @@ class MyHomePage extends ConsumerWidget {
           const _PagePushButton(
             buttonTitle: '認証ページ',
             pagename: AuthPage(),
+          ),
+          const _PagePushButton(
+            buttonTitle: 'firestoreページ',
+            pagename: FirestorePage(),
+          ),
+          const _PagePushButton(
+            buttonTitle: 'realtimedetabaseページ',
+            pagename: RealtimeDatabasePage(),
+          ),
+          const _PagePushButton(
+            buttonTitle: 'videoUpLoadページ',
+            pagename: VideoUploadPage(),
           ),
 
         ],

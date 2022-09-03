@@ -1,0 +1,117 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+//動画trimスタート時刻
+final StartTrimStateProvider = StateProvider<double>((ref) => 0.0);
+//動画trim終了時刻
+final EndTrimStateProvider = StateProvider<double>((ref) => 0.0);
+
+
+
+
+class FirestorePage extends ConsumerStatefulWidget {
+  const FirestorePage({Key? key}) : super(key: key);
+
+  @override
+  FirestorePageState createState() => FirestorePageState();
+}
+
+class FirestorePageState extends ConsumerState<FirestorePage>{
+  @override
+  void initState() {
+    super.initState();
+
+    ///Firestoreからデータを取得する場合
+    FirestoreService().get(ref);
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Firestore'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              '解析データ',
+            ),
+            Text(
+              'start:${ref.watch(StartTrimStateProvider)} end:${ref.watch(EndTrimStateProvider)}',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            // TextButton(
+            //   onPressed: (){
+            //     ref.watch(StartTrimStateProvider.state).state = 0.0;
+            //     ref.watch(EndTrimStateProvider.state).state = 0.0;
+            //     FirestoreService.delete();
+            //   }, 
+            //   child: const Text('Reset'));
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+class FirestoreService {
+  //Firestoreのデータベース定義
+  final db = FirebaseFirestore.instance;
+
+  //userIDの定義 (null合体演算子: 左がnullの場合は右)
+  final userID = FirebaseAuth.instance.currentUser?.uid ?? 'test';
+
+  //データの追加 (使う際はmap名と、collection系に値を入れて使う)
+  // void add(WidgetRef ref) {
+  //   //Map<String, dynamic>に変換
+  //   final Map<String, dynamic> counterMap = {
+  //     'count': ref.read(counterProvider),
+  //   };
+
+  //   //Firestoreへデータ追加
+  //   try{
+  //     db.collection().doc().set(counterMap);
+  //   } catch(e){
+  //     print('Error : $e');
+  //   }
+  // }
+
+  //データ取得
+  void get(WidgetRef ref) async {
+    try{
+      await db.collection("messages").doc("LnejSZiJx86FaYQEQwMk").get().then((event) {
+      //firestoreのkey:value型のデータ
+      var result = event.data();
+      //valueのみを抽出
+      var value = result!['original'];
+      //valueをMAPとして使えるようデコード
+      var valueMap = jsonDecode(value);
+      //対象のデータを取得できることを確認
+      print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
+      //下記に行プロバイダーに値を渡すテスト
+      var parsedouble = double.parse(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
+      ref.watch(StartTrimStateProvider.state).state = parsedouble;
+    });
+    } catch (e){
+      print('Error : $e');
+    }
+  }
+
+  //データの削除
+  // void delete() async {
+  //   try {
+  //     db.collection("messages").doc("LnejSZiJx86FaYQEQwMk").delete().then((doc) => null);
+  //   } catch (e) {
+  //     print('Error: $e');
+  //   }
+  // }
+}
