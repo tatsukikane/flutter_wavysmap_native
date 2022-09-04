@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:helpers/helpers.dart'
     show OpacityTransition, SwipeTransition, AnimatedInteractiveViewer;
 import 'package:image_picker/image_picker.dart';
 import 'package:video_editor/video_editor.dart';
 import 'package:video_player/video_player.dart';
+
+import '../firestore/firestore_page.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -89,16 +92,16 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
 //-------------------//
 //VIDEO EDITOR SCREEN//
 //-------------------//
-class VideoEditor extends StatefulWidget {
+class VideoEditor extends ConsumerStatefulWidget {
   const VideoEditor({Key? key, required this.file}) : super(key: key);
 
   final File file;
 
   @override
-  State<VideoEditor> createState() => _VideoEditorState();
+  _VideoEditorState createState() => _VideoEditorState();
 }
 
-class _VideoEditorState extends State<VideoEditor> {
+class _VideoEditorState extends ConsumerState<VideoEditor> {
   final _exportingProgress = ValueNotifier<double>(0.0);
   final _isExporting = ValueNotifier<bool>(false);
   final double height = 60;
@@ -106,13 +109,22 @@ class _VideoEditorState extends State<VideoEditor> {
   bool _exported = false;
   String _exportText = "";
   late VideoEditorController _controller;
+  //解析結果のトリミングスタート時刻
+
 
   @override
   void initState() {
+    //解析結果のトリミングスタート時刻 (ユーザーがfirestore_pageを経由してないと0.0になる)
+    var startTrimTime = ref.read(StartTrimStateProvider.state).state;
+    var endTrimTime = ref.read(EndTrimStateProvider.state).state;
+    print(startTrimTime*1000);
+    print(endTrimTime*1000);
     _controller = VideoEditorController.file(widget.file,
         maxDuration: const Duration(seconds: 30))
-      ..initialize().then((_) => setState(() {}));
-      _controller.setInitialValue(0.1,0.5);
+      ..initialize().then((_) => setState(() {
+        //解析結果から、トリミングの初期値を入れる (第一第二引数はミリ秒)
+        // _controller.setInitialValue(startTrimTime * 1000,endTrimTime * 1000, _controller.videoDuration);
+      })); 
     super.initState();
   }
 

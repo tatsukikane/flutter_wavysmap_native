@@ -91,6 +91,10 @@ class MyHomePage extends ConsumerWidget {
             buttonTitle: 'videoUpLoadページ',
             pagename: VideoUploadPage(),
           ),
+          const _PagePushButton(
+            buttonTitle: 'VideoEditorページ',
+            pagename: VideoEditor_app(),
+          ),
 
         ],
       ),

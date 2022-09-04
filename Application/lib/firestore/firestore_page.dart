@@ -10,6 +10,11 @@ final StartTrimStateProvider = StateProvider<double>((ref) => 0.0);
 //動画trim終了時刻
 final EndTrimStateProvider = StateProvider<double>((ref) => 0.0);
 
+//作業中 上記二つのプロバイダーを別ファイルに渡したい
+final myProvider = Provider((ref) {
+  return 14.097416;
+});
+
 
 
 
@@ -96,10 +101,36 @@ class FirestoreService {
       //valueをMAPとして使えるようデコード
       var valueMap = jsonDecode(value);
       //対象のデータを取得できることを確認
-      print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
-      //下記に行プロバイダーに値を渡すテスト
-      var parsedouble = double.parse(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
-      ref.watch(StartTrimStateProvider.state).state = parsedouble;
+      // print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
+      // print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['startTimeOffset']['seconds']);
+
+  //作業中
+      //該当データを入れる変数
+      var targetdata = null;
+      //解析データの中から該当データを探す
+      //TODO: 'bmx bike'がなかった場合の、第二候補・第三候補を作る
+      for(var i = 0; i < valueMap['shotLabelAnnotations'].length; i++){
+        if(valueMap['shotLabelAnnotations'][i]['entity']['description'] == 'bmx bike'){
+          targetdata = valueMap['shotLabelAnnotations'][i];
+        }
+        // print(valueMap['shotLabelAnnotations'][i]['entity']['description']);
+      }
+      //Start時刻定義(double型)
+      final startSeconds = double.parse(targetdata['segments'][0]['segment']['startTimeOffset']['seconds']);
+      final startNanos = targetdata['segments'][0]['segment']['startTimeOffset']['nanos'] * 0.000000001;
+      final startTime = startSeconds + startNanos;
+      print(startTime);
+      // × 0.000000001
+      //End時刻定義(double型)
+      final endSeconds = double.parse(targetdata['segments'][0]['segment']['endTimeOffset']['seconds']);
+      final endNanos = targetdata['segments'][0]['segment']['endTimeOffset']['nanos'] * 0.000000001;
+      final endTime = endSeconds + endNanos;
+      print(endTime);
+
+      //プロバイダーにstartTimeとendTimeを渡す
+      // var parsedouble = double.parse(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
+      ref.watch(StartTrimStateProvider.state).state = startTime;
+      ref.watch(EndTrimStateProvider.state).state = endTime;
     });
     } catch (e){
       print('Error : $e');
