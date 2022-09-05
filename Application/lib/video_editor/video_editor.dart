@@ -122,8 +122,13 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
     _controller = VideoEditorController.file(widget.file,
         maxDuration: const Duration(seconds: 30))
       ..initialize().then((_) => setState(() {
-        //解析結果から、トリミングの初期値を入れる (第一第二引数はミリ秒)
-        // _controller.setInitialValue(startTrimTime * 1000,endTrimTime * 1000, _controller.videoDuration);
+
+        //endTrimTimeに値が入っている場合のみトリミング初期値を設定
+        if(endTrimTime != 0.0){
+          //解析結果からスタートと終了値を渡しトリミング初期値を設定
+          _controller.updateTrim(startTrimTime * 1000 / _controller.videoDuration.inMilliseconds ,endTrimTime * 1000 / _controller.videoDuration.inMilliseconds);
+        }
+        // _controller.updateTrim(startTrimTime * 1000 / _controller.videoDuration.inMilliseconds ,endTrimTime * 1000 / _controller.videoDuration.inMilliseconds);
       })); 
     super.initState();
   }
