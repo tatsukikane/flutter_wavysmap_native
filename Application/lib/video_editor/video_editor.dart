@@ -9,6 +9,7 @@ import 'package:video_editor/video_editor.dart';
 import 'package:video_player/video_player.dart';
 
 import '../firestore/firestore_page.dart';
+import '../video_upload/video_upload.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -92,6 +93,9 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
 //-------------------//
 //VIDEO EDITOR SCREEN//
 //-------------------//
+//トリミング後の保存した動画のPathProvider
+final savedVideoPathProvider = StateProvider((ref) => "");
+
 class VideoEditor extends ConsumerStatefulWidget {
   const VideoEditor({Key? key, required this.file}) : super(key: key);
 
@@ -112,6 +116,7 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
   //解析結果のトリミングスタート時刻
 
 
+
   @override
   void initState() {
     //解析結果のトリミングスタート時刻 (ユーザーがfirestore_pageを経由してないと0.0になる)
@@ -119,9 +124,13 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
     var endTrimTime = ref.read(EndTrimStateProvider.state).state;
     print(startTrimTime*1000);
     print(endTrimTime*1000);
+
     _controller = VideoEditorController.file(widget.file,
         maxDuration: const Duration(seconds: 30))
       ..initialize().then((_) => setState(() {
+
+        //トリミング後の動画のPath
+        // print(_controller.savedVideoPath);
 
         //endTrimTimeに値が入っている場合のみトリミング初期値を設定
         if(endTrimTime != 0.0){
@@ -157,12 +166,17 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
       // customInstruction: "-crf 17",
       onProgress: (stats, value) => _exportingProgress.value = value,
       onError: (e, s) => _exportText = "Error on export video :(",
-      onCompleted: (file) {
+      onCompleted: (file) async{
         _isExporting.value = false;
         if (!mounted) return;
 
         final VideoPlayerController videoController =
             VideoPlayerController.file(file);
+
+        //動画の保存先のPathをVideoUploadPageで使えるようProviderに代入
+        ref.read(savedVideoPathProvider.state).state = await _controller.savedVideoPath;
+        // print(await _controller.savedVideoPath);
+
         videoController.initialize().then((value) async {
           setState(() {});
           videoController.play();
@@ -187,6 +201,15 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
         setState(() => _exported = true);
         Future.delayed(const Duration(seconds: 2),
             () => setState(() => _exported = false));
+        
+        //動画保存処理終了後に画面遷移
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => VideoUploadPage(),
+          ),
+        );
+
       },
     );
   }

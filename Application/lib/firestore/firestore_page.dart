@@ -93,6 +93,7 @@ class FirestoreService {
   //データ取得
   void get(WidgetRef ref) async {
     try{
+      //TODO: doc内の値を動的に入れる
       await db.collection("messages").doc("LnejSZiJx86FaYQEQwMk").get().then((event) {
       //firestoreのkey:value型のデータ
       var result = event.data();
