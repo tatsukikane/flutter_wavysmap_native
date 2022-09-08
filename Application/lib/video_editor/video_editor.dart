@@ -55,6 +55,22 @@ class VideoPickerPage extends StatefulWidget {
 class _VideoPickerPageState extends State<VideoPickerPage> {
   final ImagePicker _picker = ImagePicker();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+     Future(() async {
+      if(originalVideoPath.path == XFile("").path){
+        print("if動いてる");
+        _pickVideo();
+      } else {
+        print("else動いてる");
+        _resultEdit();
+      }
+    });
+  }
+
   // XFile originalVideoPath = XFile("");
   //originalVideoPathProviderへアクセス
   // final readprovider = Provider((ref) {

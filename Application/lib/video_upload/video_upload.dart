@@ -7,6 +7,8 @@ import 'package:flutter_wavysmap_native/video_editor/video_editor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import '../firestore/firestore_page.dart';
+
 
 /// 動画表示用Provider
 final VideoStateProvider = StateProvider((ref) => null);
@@ -50,7 +52,7 @@ class VideoUploadPageState extends ConsumerState<VideoUploadPage> {
             children: <Widget>[
               ElevatedButton(
                 onPressed: (){
-                  CloudStorageService().uploadVideo(ref);
+                  CloudStorageService().uploadVideo(ref, context);
                 },
                 child: const Icon(Icons.upload),
               ),
@@ -80,7 +82,7 @@ class CloudStorageService {
   final userID = FirebaseAuth.instance.currentUser ?? '';
 
   //【解析用動画のアップロード関数】
-  void uploadVideo(WidgetRef ref) async {
+  void uploadVideo(WidgetRef ref, context) async {
     try{
       //動画を選択
       final ImagePicker picker = ImagePicker();
@@ -117,6 +119,14 @@ class CloudStorageService {
       //   //型定義
       //   contentType: "video/mp4",
       // ));
+      //動画保存処理終了後に画面遷移
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => FirestorePage(),
+        ),
+      );
+
 
       print("done");
     } catch (e) {
@@ -144,6 +154,7 @@ class CloudStorageService {
         contentType: "video/mp4",
       ));
       print("done");
+      //TODO: StorageへのUP完了後画面遷移
     } catch (e) {
       print(e);
     }
