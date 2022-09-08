@@ -13,6 +13,9 @@ import '../video_upload/video_upload.dart';
 
 // void main() => runApp(const MyApp());
 
+//オリジナル動画のPath用変数
+XFile originalVideoPath = XFile("");
+
 class VideoEditor_app extends StatelessWidget {
   const VideoEditor_app({Key? key}) : super(key: key);
 
@@ -50,7 +53,18 @@ class VideoPickerPage extends StatefulWidget {
 class _VideoPickerPageState extends State<VideoPickerPage> {
   final ImagePicker _picker = ImagePicker();
 
+  // XFile originalVideoPath = XFile("");
+
+  //originalVideoPathProviderへアクセス
+  final provider = Provider((ref) {
+    // `ref` を通じて他のプロバイダを利用する
+    originalVideoPath = ref.read(originalVideoPathProvider.state).state;
+  });
+
+
+  //解析結果無しの場合
   void _pickVideo() async {
+    print("解析結果なし");
     final XFile? file = await _picker.pickVideo(source: ImageSource.gallery);
     if (mounted && file != null) {
       Navigator.push(
@@ -60,6 +74,18 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
                   VideoEditor(file: File(file.path))));
     }
   }
+  //解析結果ありの場合
+  // void _resultEdit(){
+  //   print("解析結果あり");
+  //   if (mounted != null) {
+  //     Navigator.push(
+  //         context,
+  //         MaterialPageRoute<void>(
+  //             builder: (BuildContext context) =>
+  //                 VideoEditor(file: File(originalVideoPath.path))));
+  //   }
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +106,13 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
               ),
             ),
             ElevatedButton(
+              // onPressed: (){
+              //   if(originalVideoPath == XFile("").path){
+              //     _pickVideo();
+              //   } else{
+              //     _resultEdit();
+              //   }
+              // },
               onPressed: _pickVideo,
               child: const Text("Pick Video From Gallery"),
             ),
@@ -119,6 +152,7 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
 
   @override
   void initState() {
+    // print(originalVideoPathProvider);
     //解析結果のトリミングスタート時刻 (ユーザーがfirestore_pageを経由してないと0.0になる)
     var startTrimTime = ref.read(StartTrimStateProvider.state).state;
     var endTrimTime = ref.read(EndTrimStateProvider.state).state;

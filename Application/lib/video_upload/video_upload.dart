@@ -11,6 +11,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 /// 動画表示用Provider
 final VideoStateProvider = StateProvider((ref) => null);
 
+//TODO: 選択した動画のPath用Provider videoeditorページで再選択しなくて良いように使う
+final originalVideoPathProvider = StateProvider((ref) => XFile(""));
+
 //savedVideoPathProviderの値を入れる変数に代入
 String savedVideoPath = "";
 
@@ -25,6 +28,9 @@ class VideoUploadPage extends ConsumerStatefulWidget {
 class VideoUploadPageState extends ConsumerState<VideoUploadPage> {
   @override
   void initState() {
+    print(ref.read(originalVideoPathProvider.state).state.path);
+    print(XFile("").path);
+    print(XFile("").path  == ref.read(originalVideoPathProvider.state).state.path);
     //savedVideoPathProvider(トリム後の保存したデータのpath)の値をputFile()で使えるよう変数に代入
     savedVideoPath = ref.read(savedVideoPathProvider.state).state;
     super.initState();
@@ -82,6 +88,13 @@ class CloudStorageService {
       // File file = File(video!.path);
       File file = File(pickedFile!.path);
 
+      //TODO: 
+      //選択したオリジナルのファイルPathを管理 (所得をする際に、refを参照するためだけに使ったproviderは使いまわしても良いのか疑問)
+      final provider = Provider((ref) {
+        // `ref` を通じて他のプロバイダを利用する
+        ref.read(originalVideoPathProvider.state).state = pickedFile;
+      });
+
       //TODO: 下記1行のコメントアウトを外し、putFile(file);の値を変える。 解析動画を上げる時と、投稿動画を上げる時の切り分けを実装
       //下記で取得したpathから動画をfirebase storageにUPできた putFile(file)のfileの部分を変えればok
       // File file1 = File.fromUri(Uri.parse(VideoStateProviderPath));
@@ -91,7 +104,7 @@ class CloudStorageService {
     //Firebase Cloud Storageにアップロード
       //TODO:
       //uploadNameは動的に変更する(投稿動画の場合)
-      String uploadName = 'trim.mp4';
+      String uploadName = 'trim3.mp4';
       //解析用動画UP用参照
       final storageRef = FirebaseStorage.instance.ref().child('${uploadName}');
 
