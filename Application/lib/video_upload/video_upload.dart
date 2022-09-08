@@ -28,9 +28,9 @@ class VideoUploadPage extends ConsumerStatefulWidget {
 class VideoUploadPageState extends ConsumerState<VideoUploadPage> {
   @override
   void initState() {
-    print(ref.read(originalVideoPathProvider.state).state.path);
-    print(XFile("").path);
-    print(XFile("").path  == ref.read(originalVideoPathProvider.state).state.path);
+    // print(ref.read(originalVideoPathProvider.state).state.path);
+    // print(XFile("").path);
+    // print(XFile("").path  == ref.read(originalVideoPathProvider.state).state.path);
     //savedVideoPathProvider(トリム後の保存したデータのpath)の値をputFile()で使えるよう変数に代入
     savedVideoPath = ref.read(savedVideoPathProvider.state).state;
     super.initState();
@@ -50,7 +50,7 @@ class VideoUploadPageState extends ConsumerState<VideoUploadPage> {
             children: <Widget>[
               ElevatedButton(
                 onPressed: (){
-                  CloudStorageService().uploadVideo();
+                  CloudStorageService().uploadVideo(ref);
                 },
                 child: const Icon(Icons.upload),
               ),
@@ -80,7 +80,7 @@ class CloudStorageService {
   final userID = FirebaseAuth.instance.currentUser ?? '';
 
   //【解析用動画のアップロード関数】
-  void uploadVideo() async {
+  void uploadVideo(WidgetRef ref) async {
     try{
       //動画を選択
       final ImagePicker picker = ImagePicker();
@@ -90,10 +90,11 @@ class CloudStorageService {
 
       //TODO: 
       //選択したオリジナルのファイルPathを管理 (所得をする際に、refを参照するためだけに使ったproviderは使いまわしても良いのか疑問)
-      final provider = Provider((ref) {
-        // `ref` を通じて他のプロバイダを利用する
-        ref.read(originalVideoPathProvider.state).state = pickedFile;
-      });
+
+      // `ref` を通じて他のプロバイダを利用する
+      ref.read(originalVideoPathProvider.state).state = pickedFile;
+      print(ref.read(originalVideoPathProvider.state).state);
+      
 
       //TODO: 下記1行のコメントアウトを外し、putFile(file);の値を変える。 解析動画を上げる時と、投稿動画を上げる時の切り分けを実装
       //下記で取得したpathから動画をfirebase storageにUPできた putFile(file)のfileの部分を変えればok

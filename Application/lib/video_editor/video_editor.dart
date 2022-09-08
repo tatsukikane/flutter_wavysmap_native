@@ -16,11 +16,13 @@ import '../video_upload/video_upload.dart';
 //オリジナル動画のPath用変数
 XFile originalVideoPath = XFile("");
 
-class VideoEditor_app extends StatelessWidget {
+class VideoEditor_app extends ConsumerWidget {
   const VideoEditor_app({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    print('ここ${ref.read(originalVideoPathProvider.state).state.path}');
+    originalVideoPath = ref.read(originalVideoPathProvider.state).state;
     return MaterialApp(
       title: 'Flutter Video Editor Demo',
       debugShowCheckedModeBanner: false,
@@ -54,12 +56,12 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
   final ImagePicker _picker = ImagePicker();
 
   // XFile originalVideoPath = XFile("");
-
   //originalVideoPathProviderへアクセス
-  final provider = Provider((ref) {
-    // `ref` を通じて他のプロバイダを利用する
-    originalVideoPath = ref.read(originalVideoPathProvider.state).state;
-  });
+  // final readprovider = Provider((ref) {
+  //   // return print("ここ");
+  //   // `ref` を通じて他のプロバイダを利用する
+  //   originalVideoPath = ref.read(originalVideoPathProvider.state).state;
+  // });
 
 
   //解析結果無しの場合
@@ -75,17 +77,16 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
     }
   }
   //解析結果ありの場合
-  // void _resultEdit(){
-  //   print("解析結果あり");
-  //   if (mounted != null) {
-  //     Navigator.push(
-  //         context,
-  //         MaterialPageRoute<void>(
-  //             builder: (BuildContext context) =>
-  //                 VideoEditor(file: File(originalVideoPath.path))));
-  //   }
-
-  // }
+  void _resultEdit(){
+    print("解析結果あり");
+    if (mounted != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+              builder: (BuildContext context) =>
+                  VideoEditor(file: File(originalVideoPath.path))));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,14 +107,17 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
               ),
             ),
             ElevatedButton(
-              // onPressed: (){
-              //   if(originalVideoPath == XFile("").path){
-              //     _pickVideo();
-              //   } else{
-              //     _resultEdit();
-              //   }
-              // },
-              onPressed: _pickVideo,
+              onPressed: (){
+                // print(XFile("").path);
+                if(originalVideoPath.path == XFile("").path){
+                  print("if動いてる");
+                  _pickVideo();
+                } else{
+                  print("else動いてる");
+                  _resultEdit();
+                }
+              },
+              // onPressed: _pickVideo,
               child: const Text("Pick Video From Gallery"),
             ),
           ],
