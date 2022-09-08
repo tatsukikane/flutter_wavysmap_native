@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../main.dart';
 import '../video_editor/video_editor.dart';
 
 //動画trimスタート時刻
@@ -63,12 +64,26 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
   //     print('Error : $e');
   //   }
   // }
+
+  //Functionsからのfirestoregeへのデータの追加を監視
   void listen(WidgetRef ref){
       final docRef = db.collection("messages");
       docRef.snapshots().listen(
         (event) => get(ref),
         onError: (error) => print("Listen failed: $error"),
       );
+  }
+
+  //Firestore上の解析結果データID
+  var firestoreDataId = null;
+
+  //firestore上の解析結果を削除
+  void delete() async {
+    try {
+      db.collection("messages").doc(firestoreDataId).delete().then((doc) => null);
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
 
@@ -83,8 +98,13 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
       await db.collection("messages").get().then((event) {
         for (var doc in event.docs) {
           result = doc.data();
+          firestoreDataId = doc.id;
           // print("${doc.id} => ${doc.data()}");
         }
+        
+      //firestore上の解析結果削除
+      delete();
+
       //firestoreのkey:value型のデータ
       // var result = event.data();
       //valueのみを抽出
@@ -95,17 +115,35 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
       // print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['endTimeOffset']['seconds']);
       // print(valueMap['shotLabelAnnotations'][0]['segments'][0]['segment']['startTimeOffset']['seconds']);
 
-     //作業中
+
       //該当データを入れる変数
       var targetdata = null;
+
       //解析データの中から該当データを探す
-      //TODO: 'bmx bike'がなかった場合の、第二候補・第三候補を作る
+      //初回検索【bmx bike】
       for(var i = 0; i < valueMap['shotLabelAnnotations'].length; i++){
         if(valueMap['shotLabelAnnotations'][i]['entity']['description'] == 'bmx bike'){
           targetdata = valueMap['shotLabelAnnotations'][i];
-        }
+        } 
         // print(valueMap['shotLabelAnnotations'][i]['entity']['description']);
       }
+      //2回目検索 1回目の検索でヒットしなかった場合【bicycle】に条件を変更し検索
+      if(targetdata == null){
+        for(var i = 0; i < valueMap['shotLabelAnnotations'].length; i++){
+          if(valueMap['shotLabelAnnotations'][i]['entity']['description'] == 'bicycle'){
+            targetdata = valueMap['shotLabelAnnotations'][i];
+          } 
+        }
+      } else {
+        //解析結果に検索条件が無かった場合は、メインページへ戻す  TODO:ダイアログ(失敗)を表示させてから、遷移
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => MyApp(),
+          ),
+        );
+      }
+      
       //Start時刻定義(double型)
       final startSeconds = double.parse(targetdata['segments'][0]['segment']['startTimeOffset']['seconds']);
       final startNanos = targetdata['segments'][0]['segment']['startTimeOffset']['nanos'] * 0.000000001;
