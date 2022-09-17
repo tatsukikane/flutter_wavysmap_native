@@ -7,11 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_wavysmap_native/realtime_database/realtime_database_page.dart';
+import 'package:flutter_wavysmap_native/register/register_page.dart';
 import 'package:flutter_wavysmap_native/video_editor/video_editor.dart';
 import 'package:flutter_wavysmap_native/video_upload/video_upload.dart';
 import 'auth/auth_page.dart';
 import 'firebase_options.dart';
 import 'firestore/firestore_page.dart';
+import 'login/login_page.dart';
+import 'mypage/my_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,10 +78,10 @@ class MyHomePage extends ConsumerWidget {
           ),
 
           /// ページ遷移
-          const _PagePushButton(
-            buttonTitle: '認証ページ',
-            pagename: AuthPage(),
-          ),
+          // const _PagePushButton(
+          //   buttonTitle: '認証ページ',
+          //   pagename: AuthPage(),
+          // ),
           const _PagePushButton(
             buttonTitle: 'firestoreページ',
             pagename: FirestorePage(),
@@ -94,6 +97,18 @@ class MyHomePage extends ConsumerWidget {
           const _PagePushButton(
             buttonTitle: 'VideoEditorページ',
             pagename: VideoEditor_app(),
+          ),
+          _PagePushButton(
+            buttonTitle: '新規登録ページ',
+            pagename: RegisterPage(),
+          ),
+          _PagePushButton(
+            buttonTitle: 'ログインページ',
+            pagename: LoginPage(),
+          ),
+          _PagePushButton(
+            buttonTitle: 'Mypage',
+            pagename: MyPage(),
           ),
 
         ],

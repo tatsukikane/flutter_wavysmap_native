@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -149,9 +150,26 @@ void _createAccount(WidgetRef ref, String id, String pass) async {
       email: id, 
       password: pass,
     );
+    final user = credential.user;
+
+    // if (user != null && name!= null) {
+    if (user != null) {
+      //認証登録後にuid取得
+      final uid = user.uid;
+
+
+      //firestoreのデータを変更
+      final doc = FirebaseFirestore.instance.collection('users').doc(uid);
+      await doc.set({
+        'uid':uid,
+        'email':id,
+        // 'name':name,
+        // 'description':description,
+      });
+    }
 
     //ユーザー情報の更新
-    ref.watch(userProvider.state).state = credential.user;
+    ref.watch(userProvider.state).state = credential.user;    
     //画面に表示
     ref.read(signInStateProvider.state).state = 'アカウント作成に成功しました!';
   }
