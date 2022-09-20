@@ -72,15 +72,6 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
     });
   }
 
-  // XFile originalVideoPath = XFile("");
-  //originalVideoPathProviderへアクセス
-  // final readprovider = Provider((ref) {
-  //   // return print("ここ");
-  //   // `ref` を通じて他のプロバイダを利用する
-  //   originalVideoPath = ref.read(originalVideoPathProvider.state).state;
-  // });
-
-
   //解析結果無しの場合
   void _pickVideo() async {
     print("解析結果なし");
@@ -125,7 +116,6 @@ class _VideoPickerPageState extends State<VideoPickerPage> {
             ),
             ElevatedButton(
               onPressed: (){
-                // print(XFile("").path);
                 if(originalVideoPath.path == XFile("").path){
                   print("if動いてる");
                   _pickVideo();
@@ -173,7 +163,6 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
 
   @override
   void initState() {
-    // print(originalVideoPathProvider);
     //解析結果のトリミングスタート時刻 (ユーザーがfirestore_pageを経由してないと0.0になる)
     var startTrimTime = ref.read(StartTrimStateProvider.state).state;
     var endTrimTime = ref.read(EndTrimStateProvider.state).state;
@@ -192,7 +181,6 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
           //解析結果からスタートと終了値を渡しトリミング初期値を設定
           _controller.updateTrim(startTrimTime * 1000 / _controller.videoDuration.inMilliseconds ,endTrimTime * 1000 / _controller.videoDuration.inMilliseconds);
         }
-        // _controller.updateTrim(startTrimTime * 1000 / _controller.videoDuration.inMilliseconds ,endTrimTime * 1000 / _controller.videoDuration.inMilliseconds);
       })); 
     super.initState();
   }
@@ -230,8 +218,6 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
 
         //動画の保存先のPathをVideoUploadPageで使えるようProviderに代入
         ref.read(savedVideoPathProvider.state).state = await _controller.savedVideoPath;
-        print("---------");
-        print(await _controller.savedVideoPath);
 
         videoController.initialize().then((value) async {
           setState(() {});

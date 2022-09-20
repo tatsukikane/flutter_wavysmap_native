@@ -31,12 +31,8 @@ class VideoUploadPageState extends ConsumerState<VideoUploadPage> {
   @override
   void initState() {
     super.initState();
-    // print(ref.read(originalVideoPathProvider.state).state.path);
-    // print(XFile("").path);
-    // print(XFile("").path  == ref.read(originalVideoPathProvider.state).state.path);
     //savedVideoPathProvider(トリム後の保存したデータのpath)の値をputFile()で使えるよう変数に代入
     savedVideoPath = ref.read(savedVideoPathProvider.state).state;
-    // super.initState();
   }
 
   @override
@@ -88,21 +84,15 @@ class CloudStorageService {
       //動画を選択
       final ImagePicker picker = ImagePicker();
       final XFile? pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-      // File file = File(video!.path);
+
       File file = File(pickedFile!.path);
 
-      //TODO: 
-      //選択したオリジナルのファイルPathを管理 (所得をする際に、refを参照するためだけに使ったproviderは使いまわしても良いのか疑問)
 
       // `ref` を通じて他のプロバイダを利用する
       ref.read(originalVideoPathProvider.state).state = pickedFile;
       print(ref.read(originalVideoPathProvider.state).state);
       
 
-      //TODO: 下記1行のコメントアウトを外し、putFile(file);の値を変える。 解析動画を上げる時と、投稿動画を上げる時の切り分けを実装
-      //下記で取得したpathから動画をfirebase storageにUPできた putFile(file)のfileの部分を変えればok
-      // File file1 = File.fromUri(Uri.parse(VideoStateProviderPath));
-      // print(file1);
 
 
     //Firebase Cloud Storageにアップロード
@@ -116,10 +106,7 @@ class CloudStorageService {
       final storage = FirebaseStorage.instanceFor(bucket: "gs://functions-test-post").ref().child('${uploadName}');
 
       final task = await storageRef.putFile(file);
-      // final task = await storage.putFile(file, SettableMetadata(
-      //   //型定義
-      //   contentType: "video/mp4",
-      // ));
+
       //動画保存処理終了後に画面遷移
       Navigator.push(
         context,
@@ -160,45 +147,4 @@ class CloudStorageService {
       print(e);
     }
   }
-
-
-
-
-
-  //画像のダウンロード
-  // void downloadPic(WidgetRef ref) async{
-  //   try {
-  //     //参照の作成
-  //     String downloadName = 'trim.mp4';
-  //     final storageRef = FirebaseStorage.instance.refFromURL('gs://functions-test-7bc83.appspot.com');
-
-  //     //画像をメモリに保存し、Uni8Listへ変換
-  //     const oneMegabyte = 1024 * 1024;
-  //     ref.read(VideoStateProvider.state).state = await storageRef.getData();
-  //   } on FirebaseException catch (e) {
-  //   // Handle any errors.
-  // }
-  // }
-
 }
-
-
-
-
-
-// import 'package:flutter/src/foundation/key.dart';
-// import 'package:flutter/src/widgets/framework.dart';
-
-// class video_upload extends StatefulWidget {
-//   const video_upload({Key? key}) : super(key: key);
-
-//   @override
-//   State<video_upload> createState() => _video_uploadState();
-// }
-
-// class _video_uploadState extends State<video_upload> {
-//   @override
-//   Widget build(BuildContext context) {
-    
-//   }
-// }
