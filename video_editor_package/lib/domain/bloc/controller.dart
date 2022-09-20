@@ -4,6 +4,7 @@ import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/statistics.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -128,6 +129,8 @@ class VideoEditorController extends ChangeNotifier {
   /// Get the [Size] of the video
   Size get videoDimension =>
       Size(_videoWidth.toDouble(), _videoHeight.toDouble());
+  
+  String savedVideoPath = "";
 
   //---------ここから下あたりをいじれば良さそう---------
   /// The [minTrim] param is the minimum position of the trimmed area on the slider
@@ -152,13 +155,6 @@ class VideoEditorController extends ChangeNotifier {
       _maxTrim = value;
       _updateTrimRange();
     }
-  }
-  
-  ///AIが解析した動画トリムの値を入れる
-  void setInitialValue(min, max) {
-    _minTrim = min;
-    _maxTrim = max;
-    print(_maxTrim);
   }
 
   /// The [startTrim] param is the maximum position of the trimmed area in video position in [Duration] value
@@ -213,6 +209,7 @@ class VideoEditorController extends ChangeNotifier {
     });
     _video.addListener(_videoListener);
     _video.setLooping(true);
+    // print(videoDuration);
 
     // if no [maxDuration] param given, maxDuration is the videoDuration
     _maxDuration = _maxDuration == Duration.zero ? videoDuration : _maxDuration;
@@ -470,6 +467,8 @@ class VideoEditorController extends ChangeNotifier {
     final int epoch = DateTime.now().millisecondsSinceEpoch;
     final String outputPath = "$tempPath/${name}_$epoch.$format";
 
+    savedVideoPath = outputPath;
+
     // CALCULATE FILTERS
     final String gif = format != "gif" ? "" : "fps=10 -loop 0";
     //TODO: 書き出しのトリムここ？
@@ -505,6 +504,10 @@ class VideoEditorController extends ChangeNotifier {
 
         if (code?.isValueSuccess() == true) {
           onCompleted(File(outputPath));
+          // print(videoPath);
+          //保存先path
+          //TODO: ここのoutputPathの値をプロバイダー管理してvideo_upload.dartで使えるようにする
+          // print(outputPath);
         } else {
           if (onError != null) {
             onError(

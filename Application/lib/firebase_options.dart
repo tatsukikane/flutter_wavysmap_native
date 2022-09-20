@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '773314628426',
     projectId: 'functions-test-7bc83',
     authDomain: 'functions-test-7bc83.firebaseapp.com',
+    databaseURL: 'https://functions-test-7bc83-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'functions-test-7bc83.appspot.com',
   );
 
@@ -57,6 +58,7 @@ class DefaultFirebaseOptions {
     appId: '1:773314628426:android:c058112eef6cb6ccba0fb3',
     messagingSenderId: '773314628426',
     projectId: 'functions-test-7bc83',
+    databaseURL: 'https://functions-test-7bc83-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'functions-test-7bc83.appspot.com',
   );
 
@@ -65,6 +67,7 @@ class DefaultFirebaseOptions {
     appId: '1:773314628426:ios:88fbf0c7e5e7e16dba0fb3',
     messagingSenderId: '773314628426',
     projectId: 'functions-test-7bc83',
+    databaseURL: 'https://functions-test-7bc83-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'functions-test-7bc83.appspot.com',
     iosClientId: '773314628426-cusf3db3eeugenr3si5mukpgc0n5btv7.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterWavysmapNative',
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:773314628426:ios:88fbf0c7e5e7e16dba0fb3',
     messagingSenderId: '773314628426',
     projectId: 'functions-test-7bc83',
+    databaseURL: 'https://functions-test-7bc83-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'functions-test-7bc83.appspot.com',
     iosClientId: '773314628426-cusf3db3eeugenr3si5mukpgc0n5btv7.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterWavysmapNative',

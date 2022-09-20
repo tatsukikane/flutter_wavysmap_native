@@ -30,12 +30,13 @@ class VideoUploadPage extends ConsumerStatefulWidget {
 class VideoUploadPageState extends ConsumerState<VideoUploadPage> {
   @override
   void initState() {
+    super.initState();
     // print(ref.read(originalVideoPathProvider.state).state.path);
     // print(XFile("").path);
     // print(XFile("").path  == ref.read(originalVideoPathProvider.state).state.path);
     //savedVideoPathProvider(トリム後の保存したデータのpath)の値をputFile()で使えるよう変数に代入
     savedVideoPath = ref.read(savedVideoPathProvider.state).state;
-    super.initState();
+    // super.initState();
   }
 
   @override
@@ -123,7 +124,7 @@ class CloudStorageService {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => FirestorePage(),
+          builder: (_) => const FirestorePage(),
         ),
       );
 

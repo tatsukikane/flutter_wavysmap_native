@@ -10,6 +10,7 @@ import 'package:video_player/video_player.dart';
 
 import '../firestore/firestore_page.dart';
 import '../video_upload/video_upload.dart';
+import '../views/screens/confirm_screen.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -229,7 +230,8 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
 
         //動画の保存先のPathをVideoUploadPageで使えるようProviderに代入
         ref.read(savedVideoPathProvider.state).state = await _controller.savedVideoPath;
-        // print(await _controller.savedVideoPath);
+        print("---------");
+        print(await _controller.savedVideoPath);
 
         videoController.initialize().then((value) async {
           setState(() {});
@@ -256,13 +258,23 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
         Future.delayed(const Duration(seconds: 2),
             () => setState(() => _exported = false));
         
-        //動画保存処理終了後に画面遷移
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => VideoUploadPage(),
-          ),
-        );
+        //動画保存処理終了後に画面遷移 (tiktok融合前)
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (_) => VideoUploadPage(),
+        //   ),
+        // );
+        if (await _controller.savedVideoPath != null) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ConfirmScreen(
+                videoFile: File(_controller.savedVideoPath),
+                videoPath: _controller.savedVideoPath,
+              ),
+            ),
+          );
+        }
 
       },
     );

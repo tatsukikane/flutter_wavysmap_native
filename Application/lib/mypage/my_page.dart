@@ -120,10 +120,10 @@ class MyPage extends StatelessWidget {
                       TextButton(onPressed: () async{
                         //ログアウト
                         await model.logout();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyHomePage()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => MyHomePage()),
+                        // );
                       },
                       child: Text(
                         'ログアウト',

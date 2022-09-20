@@ -116,7 +116,7 @@ class _TrimSliderState extends State<TrimSlider>
         // avoid maxTrim to be smaller than minTrim
         if (pos.dx < _trimLayout.width + widget.horizontalMargin &&
             pos.dx > _rect.left + _trimWidth * 2) {
-              print(_rect);
+              // print(_rect);
               //ここが右側のタブをいじった時
           _changeTrimRect(width: _rect.width + delta.dx);
         }
@@ -202,6 +202,8 @@ class _TrimSliderState extends State<TrimSlider>
 
   void _updateControllerTrim() {
     final double width = _fullLayout.width;
+    // print("rect");
+    // print(_rect.left );
     widget.controller.updateTrim(
         (_rect.left + _thumbnailPosition - widget.horizontalMargin) / width,
         (_rect.right + _thumbnailPosition - widget.horizontalMargin) / width);
@@ -230,8 +232,8 @@ class _TrimSliderState extends State<TrimSlider>
     final double max =
         (left + width - widget.horizontalMargin) / _fullLayout.width;
     final Duration duration = _controller.value.duration;
-    print("ここ");
-    print(duration);
+    // print("ここ");
+    // print(duration);
     return (duration * max) - (duration * min);
   }
 

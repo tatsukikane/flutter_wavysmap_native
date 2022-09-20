@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_wavysmap_native/views/screens/home_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../main.dart';
@@ -108,7 +109,7 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
       //firestoreのkey:value型のデータ
       // var result = event.data();
       //valueのみを抽出
-      var value = result!['original'];
+      var value = result['original'];
       //valueをMAPとして使えるようデコード
       var valueMap = jsonDecode(value);
       //対象のデータを取得できることを確認
@@ -117,7 +118,7 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
 
 
       //該当データを入れる変数
-      var targetdata = null;
+      var targetdata;
 
       //解析データの中から該当データを探す
       //初回検索【bmx bike】
@@ -134,12 +135,13 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
             targetdata = valueMap['shotLabelAnnotations'][i];
           } 
         }
-      } else {
+      }
+      if(targetdata == null){
         //解析結果に検索条件が無かった場合は、メインページへ戻す  TODO:ダイアログ(失敗)を表示させてから、遷移
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => MyApp(),
+            builder: (_) => HomeScreen(),
           ),
         );
       }
