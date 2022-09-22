@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_wavysmap_native/models/pin.dart';
 import 'package:flutter_wavysmap_native/views/screens/home_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
@@ -65,8 +66,23 @@ class UploadVideoController extends GetxController {
         thumbnail: thumbnail,
       );
 
+      //FirestoreへのPin情報の登録
+      Pin pin = Pin(
+        username: (userDoc.data()! as Map<String, dynamic>)['name'],
+        uid: uid,
+        id: "Pin $len",
+        caption: caption,
+        videoUrl: videoUrl,
+        thumbnail: thumbnail,
+      );
+
+      //Firestoreへのvideo登録
       await firestore.collection('videos').doc('Video $len').set(
             video.toJson(),
+          );
+      //FirestoreへのPin登録
+      await firestore.collection('pins').doc('pin $len').set(
+        pin.toJson(),
           );
       Get.to(HomeScreen());
     } catch (e) {
