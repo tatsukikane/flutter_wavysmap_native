@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         type: BottomNavigationBarType.fixed,
         backgroundColor: backgroundColor,
-        selectedItemColor: Colors.red,
+        selectedItemColor: Colors.blue.shade300,
         unselectedItemColor: Colors.white,
         currentIndex: pageIdx,
         items: const [
@@ -47,8 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message, size: 30),
-            label: 'Messages',
+            icon: Icon(Icons.public, size: 30),
+            label: 'Map',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person, size: 30),
