@@ -14,6 +14,7 @@ List pages = [
   SearchScreen(),
   const AddVideoScreen(),
   Text('Messages Screen'),
+  // test();
   ProfileScreen(uid: authController.user.uid),
 ];
 
