@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_wavysmap_native/main.dart';
 import 'package:flutter_wavysmap_native/models/pin.dart';
 import 'package:flutter_wavysmap_native/views/screens/home_screen.dart';
 import 'package:get/get.dart';
@@ -74,6 +75,8 @@ class UploadVideoController extends GetxController {
         caption: caption,
         videoUrl: videoUrl,
         thumbnail: thumbnail,
+        latitude: sharedPreferences.getDouble('latitude')!,
+        longitude: sharedPreferences.getDouble('longitude')!
       );
 
       //Firestoreへのvideo登録

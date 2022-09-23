@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/controllers/auth_controller.dart';
+import 'package:flutter_wavysmap_native/map/screens/restaurants_map.dart';
 import 'package:flutter_wavysmap_native/views/screens/add_video_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/profile_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/search_screen.dart';
@@ -13,7 +14,7 @@ List pages = [
   VideoScreen(),
   SearchScreen(),
   const AddVideoScreen(),
-  Text('Messages Screen'),
+  RestaurantsMap(),
   // test();
   ProfileScreen(uid: authController.user.uid),
 ];

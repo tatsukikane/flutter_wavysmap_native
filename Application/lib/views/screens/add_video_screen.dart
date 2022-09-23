@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_wavysmap_native/main.dart';
+import 'package:flutter_wavysmap_native/map/helpers/shared_prefs.dart';
 import 'package:flutter_wavysmap_native/video_upload/video_upload.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
@@ -28,6 +30,11 @@ class AddVideoScreen extends ConsumerWidget {
   }
 
   showOptionsDialog(BuildContext context) {
+    // //lat lng 単体
+    // print(sharedPreferences.getDouble('latitude'));
+    // print(sharedPreferences.getDouble('longitude'));
+    // //latlng型
+    // print(getLatLngFromSharedPrefs());
     return showDialog(
       context: context,
       builder: (context) => SimpleDialog(

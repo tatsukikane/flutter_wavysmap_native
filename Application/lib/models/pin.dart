@@ -8,6 +8,8 @@ class Pin {
   String caption;
   String videoUrl;
   String thumbnail;
+  double latitude;
+  double longitude;
 
   Pin({
     required this.username,
@@ -16,6 +18,8 @@ class Pin {
     required this.caption,
     required this.videoUrl,
     required this.thumbnail,
+    required this.latitude,
+    required this.longitude
   });
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +29,8 @@ class Pin {
         "caption": caption,
         "videoUrl": videoUrl,
         "thumbnail": thumbnail,
+        "latitude": latitude,
+        "longitude": longitude
       };
 
   static Pin fromSnap(DocumentSnapshot snap) {
@@ -37,6 +43,8 @@ class Pin {
       caption: snapshot['caption'],
       videoUrl: snapshot['videoUrl'],
       thumbnail: snapshot['thumbnail'],
+      latitude: snapshot['latitude'],
+      longitude: snapshot['longitude']
     );
   }
 }
