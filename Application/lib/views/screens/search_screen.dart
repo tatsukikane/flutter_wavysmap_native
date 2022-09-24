@@ -16,15 +16,16 @@ class SearchScreen extends StatelessWidget {
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.blue.shade300,
           title: TextFormField(
             decoration: const InputDecoration(
               filled: false,
-              hintText: 'Search',
+              hintText: 'ユーザー名',
               hintStyle: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
+              icon: Icon(Icons.person_search)
             ),
             onFieldSubmitted: (value) => searchController.searchUser(value),
           ),

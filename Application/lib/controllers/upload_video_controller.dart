@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_wavysmap_native/main.dart';
+import 'package:flutter_wavysmap_native/map/helpers/directions_handler.dart';
+import 'package:flutter_wavysmap_native/map/ui/splash.dart';
 import 'package:flutter_wavysmap_native/models/pin.dart';
 import 'package:flutter_wavysmap_native/views/screens/home_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/models/video.dart';
+import 'package:location/location.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:video_compress/video_compress.dart';
 
 class UploadVideoController extends GetxController {
@@ -72,6 +78,8 @@ class UploadVideoController extends GetxController {
         username: (userDoc.data()! as Map<String, dynamic>)['name'],
         uid: uid,
         id: "Pin $len",
+        videoId: "Video $len",
+        spotName: songName,
         caption: caption,
         videoUrl: videoUrl,
         thumbnail: thumbnail,
@@ -87,6 +95,10 @@ class UploadVideoController extends GetxController {
       await firestore.collection('pins').doc('pin $len').set(
         pin.toJson(),
           );
+      //下記に行Map上のpinを更新
+      await get();
+      await pinsUpdate();
+
       Get.to(HomeScreen());
     } catch (e) {
       Get.snackbar(
@@ -95,4 +107,35 @@ class UploadVideoController extends GetxController {
       );
     }
   }
+
+
+  //-------------------------動画投稿時のPin更新用------------------------------------------
+  Future get() async{
+    var collection = await FirebaseFirestore.instance.collection('pins').get();
+    products = collection.docs.map((doc) => PinModel(
+            doc['username'],
+            doc['uid'],
+            doc['id'],
+            doc['videoId'],
+            doc['spotName'],
+            doc['caption'],
+            doc['videoUrl'],
+            doc['thumbnail'],
+            doc['latitude'],
+            doc['longitude'],
+        )).toList();
+        print("ここやで");
+        // print(products[0].);
+  }
+  Future pinsUpdate() async {
+    // ユーザーの現在地を取得する
+    LatLng currentLatLng =
+        LatLng(sharedPreferences.getDouble('latitude')!,sharedPreferences.getDouble('longitude')!);
+    for (int i = 0; i < products.length; i++) {
+      //リスト内要素をAPIに渡す
+      Map modifiedResponse = await getDirectionsAPIResponse(currentLatLng, i);
+      saveDirectionsAPIResponse(i, json.encode(modifiedResponse));
+    }
+  }
+  //-------------------------動画投稿時のPin更新用------------------------------------------
 }

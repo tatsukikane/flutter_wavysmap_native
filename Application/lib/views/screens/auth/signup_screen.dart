@@ -19,7 +19,7 @@ class SignupScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Tiktok Clone',
+              "Wavy's Map",
               style: TextStyle(
                 fontSize: 35,
                 color: buttonColor,
@@ -40,9 +40,8 @@ class SignupScreen extends StatelessWidget {
               children: [
                 const CircleAvatar(
                   radius: 64,
-                  backgroundImage: NetworkImage(
-                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'),
-                  backgroundColor: Colors.black,
+                  backgroundImage: AssetImage("assets/icon/alien.png"),
+                  backgroundColor: Color.fromARGB(255, 100, 181, 246),
                 ),
                 Positioned(
                   bottom: -10,

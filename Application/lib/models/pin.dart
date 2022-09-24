@@ -5,6 +5,8 @@ class Pin {
   String username;
   String uid;
   String id;
+  String videoId;
+  String spotName;
   String caption;
   String videoUrl;
   String thumbnail;
@@ -15,6 +17,8 @@ class Pin {
     required this.username,
     required this.uid,
     required this.id,
+    required this.videoId,
+    required this.spotName,
     required this.caption,
     required this.videoUrl,
     required this.thumbnail,
@@ -26,6 +30,8 @@ class Pin {
         "username": username,
         "uid": uid,
         "id": id,
+        "videoId": videoId,
+        "spotName": spotName,
         "caption": caption,
         "videoUrl": videoUrl,
         "thumbnail": thumbnail,
@@ -40,6 +46,8 @@ class Pin {
       username: snapshot['username'],
       uid: snapshot['uid'],
       id: snapshot['id'],
+      videoId: snapshot['videoId'],
+      spotName: snapshot['spotName'],
       caption: snapshot['caption'],
       videoUrl: snapshot['videoUrl'],
       thumbnail: snapshot['thumbnail'],
@@ -47,4 +55,32 @@ class Pin {
       longitude: snapshot['longitude']
     );
   }
+}
+
+
+class PinModel {
+  String username;
+  String uid;
+  String id;
+  String videoId;
+  String spotName;
+  String caption;
+  String videoUrl;
+  String thumbnail;
+  double latitude;
+  double longitude;
+
+
+  PinModel(
+  this.username,
+  this.uid,
+  this.id,
+  this.videoId,
+  this.spotName,
+  this.caption,
+  this.videoUrl,
+  this.thumbnail,
+  this.latitude,
+  this.longitude
+  );
 }

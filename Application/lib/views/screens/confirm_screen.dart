@@ -6,7 +6,6 @@ import 'package:flutter_wavysmap_native/controllers/upload_video_controller.dart
 import 'package:flutter_wavysmap_native/views/widgets/text_input_field.dart';
 import 'package:video_player/video_player.dart';
 
-//TODO: 結合したら変わる(いらない？)
 class ConfirmScreen extends StatefulWidget {
   final File videoFile;
   final String videoPath;
@@ -73,8 +72,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     width: MediaQuery.of(context).size.width - 20,
                     child: TextInputField(
                       controller: _songController,
-                      labelText: 'Song Name',
-                      icon: Icons.music_note,
+                      labelText: 'Spot Name',
+                      icon: Icons.pin_drop,
                     ),
                   ),
                   const SizedBox(

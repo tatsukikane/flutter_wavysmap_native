@@ -19,13 +19,14 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Tiktok Clone',
+              "Wavy's Map",
               style: TextStyle(
                 fontSize: 35,
                 color: buttonColor,
                 fontWeight: FontWeight.w900,
               ),
             ),
+            SizedBox(height: 16,),
             const Text(
               'Login',
               style: TextStyle(

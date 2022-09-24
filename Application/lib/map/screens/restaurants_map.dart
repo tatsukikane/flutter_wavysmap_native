@@ -64,7 +64,7 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
       // restaurants.length,
       products.length,
       (index) => carouselCard(carouselData[index]['index'], 
-        carouselData[index]['distance'], carouselData[index]['duration'])
+        carouselData[index]['distance'], carouselData[index]['duration'], context)
     );
 
     // initialize map symbols in the same order as carousel widgets
@@ -177,28 +177,29 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Restaurants Map'),
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height*0.8,
-              child: MapboxMap(
-                accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
-                initialCameraPosition: _initialCameraPosition,
-                onMapCreated: _onMapCreated,
-                onStyleLoadedCallback: _onStyleLoadedCallback,
-                // onSymbolTapped: _onSymbolTap,
-                myLocationEnabled: true,
-                myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
-                minMaxZoomPreference: const MinMaxZoomPreference(10, 17), //mapのzoom範囲
-                //スタイルの変更
-                styleString: "mapbox://styles/tatsukikane/cl7fymo0l000n15pkggakbwf4",
-              ),
+      // appBar: AppBar(
+      //   title: const Text('Restaurants Map'),
+      // ),
+      body: Stack(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: MapboxMap(
+              accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
+              initialCameraPosition: _initialCameraPosition,
+              onMapCreated: _onMapCreated,
+              onStyleLoadedCallback: _onStyleLoadedCallback,
+              // onSymbolTapped: _onSymbolTap,
+              myLocationEnabled: true,
+              myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
+              minMaxZoomPreference: const MinMaxZoomPreference(10, 17), //mapのzoom範囲
+              //スタイルの変更
+              styleString: "mapbox://styles/tatsukikane/cl7fymo0l000n15pkggakbwf4",
             ),
-            CarouselSlider(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 32.0),
+            child: CarouselSlider(
               items: carouselItems,
               carouselController: buttonCarouselController,
               options: CarouselOptions(
@@ -216,8 +217,8 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
                 }
               )
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

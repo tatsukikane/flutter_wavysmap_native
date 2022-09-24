@@ -5,9 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/controllers/auth_controller.dart';
 import 'package:flutter_wavysmap_native/main.dart';
+import 'package:flutter_wavysmap_native/models/pin.dart';
 import 'package:flutter_wavysmap_native/views/screens/auth/login_screen.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter_wavysmap_native/map/constants/restaurants.dart';
 import 'package:flutter_wavysmap_native/map/get_firestore/spot_model.dart';
@@ -16,7 +18,8 @@ import 'package:flutter_wavysmap_native/map/main.dart';
 import '../helpers/directions_handler.dart';
 import '../screens/home_management.dart';
 
-List<SpotModel> products = [];
+
+List<PinModel> products = [];
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -25,21 +28,30 @@ class Splash extends StatefulWidget {
   State<Splash> createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with TickerProviderStateMixin{
+//アニメーション用
+late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
+    //アニメーション用
+    _controller = AnimationController(vsync: this);
     get();
     initializeLocationAndSave();
   }
 
   Future get() async{
-    var collection = await FirebaseFirestore.instance.collection('spots').get();
-    products = collection.docs.map((doc) => SpotModel(
+    var collection = await FirebaseFirestore.instance.collection('pins').get();
+    products = collection.docs.map((doc) => PinModel(
+            doc['username'],
+            doc['uid'],
             doc['id'],
-            doc['name'],
-            doc['items'],
-            doc['image'],
+            doc['videoId'],
+            doc['spotName'],
+            doc['caption'],
+            doc['videoUrl'],
+            doc['thumbnail'],
             doc['latitude'],
             doc['longitude'],
         )).toList();
@@ -96,9 +108,29 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.black,
-      child: Center(child: Image.asset('assets/image/splash.png')),
+    final Size size = MediaQuery.of(context).size;
+    return Stack(
+      children: [
+        Center(
+          child: Lottie.asset(
+            'assets/46833-looping-energy-orb.json',
+          ),
+        ),
+        Material(
+          color: Color.fromARGB(137, 49, 48, 48),
+          child: Center(child: Image.asset('assets/image/logo_blue2.png')),
+        ),
+        // Center(
+        //   child: Lottie.asset(
+        //     'assets/46833-looping-energy-orb.json',
+        //   ),
+        // )
+
+      ],
+      // child: Material(
+      //   color: Color.fromARGB(137, 49, 48, 48),
+      //   child: Center(child: Image.asset('assets/image/logo_blue2.png')),
+      // ),
     );
   }
 }

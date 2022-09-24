@@ -17,7 +17,7 @@ Future<Map> getDirectionsAPIResponse(LatLng currentLatLng, int index) async {
   num duration = response['routes'][0]['duration'];
   num distance = response['routes'][0]['distance'];
   // print('-------------------${restaurants[index]['name']}-------------------');
-  print('-------------------${products[index].name}-------------------');
+  print('-------------------${products[index].spotName}-------------------');
 
   print(distance);
   print(duration);

@@ -12,16 +12,15 @@ import 'package:flutter_wavysmap_native/views/screens/video_screen.dart';
 //ボトムバー用ページリスト
 List pages = [
   VideoScreen(),
-  SearchScreen(),
-  const AddVideoScreen(),
   RestaurantsMap(),
-  // test();
+  const AddVideoScreen(),
+  SearchScreen(),
   ProfileScreen(uid: authController.user.uid),
 ];
 
 // COLORS
 const backgroundColor = Colors.black;
-var buttonColor = Colors.red[400];
+var buttonColor = Colors.blue.shade300;
 const borderColor = Colors.grey;
 
 // FIREBASE

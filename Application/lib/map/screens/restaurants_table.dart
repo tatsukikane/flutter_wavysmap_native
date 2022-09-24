@@ -87,7 +87,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                           width: 140,
                           fit: BoxFit.cover,
                           // imageUrl: restaurants[index]['image'],
-                          imageUrl: products[index].image,
+                          imageUrl: products[index].thumbnail,
                         ),
                         Expanded(
                           child: Container(
@@ -98,13 +98,13 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                               children: [
                                 Text(
                                   // restaurants[index]['name'],
-                                  products[index].name,
+                                  products[index].spotName,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
                                 // Text(restaurants[index]['items']),
-                                Text(products[index].items),
+                                Text(products[index].caption),
                                 const Spacer(),
                                 const Text('Waiting time: 2hrs'),
                                 Text(
