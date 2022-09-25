@@ -95,58 +95,80 @@ class AddVideoScreen extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Center(
+          Container(
             child: Lottie.asset(
-              'assets/dot-pattern-background.json',
+              'assets/bang.json',
             ),
           ),
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                InkWell(
-                  onTap: () => showOptionsDialog(context),
-                  child: Container(
-                    width: 190,
-                    height: 50,
-                    decoration: BoxDecoration(color: buttonColor),
-                    child: const Center(
-                      child: Text(
-                        'Add Video',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                SizedBox(
+                  width: 190,
+                  height: 50,
+                  child: ElevatedButton(
+                    child: Text(
+                      'Add Video',
+                    ),
+                    onPressed: () => showOptionsDialog(context),
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
-                InkWell(
-                  onTap: (){
-                    CloudStorageService().uploadVideo(ref, context);
-                  },
-                  // onTap: () => Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const VideoUploadPage()),
-                  // ),
-                  child: Container(
-                    width: 190,
-                    height: 50,
-                    decoration: BoxDecoration(color: buttonColor),
-                    child: const Center(
-                      child: Text(
-                        'Auto Trimming',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                SizedBox(height: 24),
+                SizedBox(
+                  width: 190,
+                  height: 50,
+                  child: ElevatedButton(
+                    child: Text(
+                      'Auto Trimming',
+                    ),
+                    onPressed: () => CloudStorageService().uploadVideo(ref, context),
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
                         ),
                       ),
                     ),
                   ),
                 ),
+                // InkWell(
+                //   onTap: (){
+                //     CloudStorageService().uploadVideo(ref, context);
+                //   },
+                //   // onTap: () => Navigator.push(
+                //   //   context,
+                //   //   MaterialPageRoute(builder: (context) => const VideoUploadPage()),
+                //   // ),
+                //   child: Container(
+                //     width: 190,
+                //     height: 50,
+                //     decoration: BoxDecoration(color: buttonColor),
+                //     child: const Center(
+                //       child: Text(
+                //         'Auto Trimming',
+                //         style: TextStyle(
+                //           fontSize: 20,
+                //           color: Colors.black,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

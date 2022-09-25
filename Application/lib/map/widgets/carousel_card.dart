@@ -51,13 +51,23 @@ Widget carouselCard(int index, num distance, num duration, BuildContext context)
                         fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   // Text(restaurants[index]['items'],
-                  Text(products[index].caption,
-                      overflow: TextOverflow.ellipsis),
-                  const SizedBox(height: 5),
-                  Text(
-                    '${distance.toStringAsFixed(2)}kms, ${duration.toStringAsFixed(2)} mins',
-                    style: const TextStyle(color: Colors.tealAccent),
+                  Row(
+                    children: [
+                      Icon(Icons.chat,size: 16,),
+                      Text(products[index].caption,
+                          overflow: TextOverflow.ellipsis),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.person,size: 16,),
+                      Text(products[index].username)
+                    ],
                   )
+                  // Text(
+                  //   '${distance.toStringAsFixed(2)}kms, ${duration.toStringAsFixed(2)} mins',
+                  //   style: const TextStyle(color: Colors.tealAccent),
+                  // )
                 ],
               ),
             ),

@@ -47,31 +47,30 @@ class VideoScreen extends StatelessWidget {
 
   buildMusicAlbum(String profilePhoto) {
     return SizedBox(
-      width: 60,
-      height: 60,
-      child: Column(
-        children: [
-          Container(
-              padding: EdgeInsets.all(11),
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Colors.grey,
-                      Colors.white,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(25)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: Image(
-                  image: NetworkImage(profilePhoto),
-                  fit: BoxFit.cover,
-                ),
-              ))
-        ],
-      ),
+      width: 80,
+      height: 70,
+      child: Image.asset('assets/icon/bmx_logo.png',fit: BoxFit.contain,),
+      // child: Column(
+      //   children: [
+      //     Container(
+      //         padding: EdgeInsets.all(11),
+      //         height: 50,
+      //         width: 50,
+      //         decoration: BoxDecoration(
+      //             gradient: const LinearGradient(
+      //               colors: [
+      //                 Colors.grey,
+      //                 Colors.white,
+      //               ],
+      //             ),
+      //             borderRadius: BorderRadius.circular(25)),
+      //         child: ClipRRect(
+      //           borderRadius: BorderRadius.circular(25),
+      //           child: Image.asset('assets/icon/ufo.png'),
+      //         )
+      //     )
+      //   ],
+      // ),
     );
   }
 
@@ -150,14 +149,15 @@ class VideoScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 100,
-                            margin: EdgeInsets.only(top: size.height / 5),
+                            width: 56,
+                            margin: EdgeInsets.only(top: size.height / 3),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 buildProfile(
                                   data.profilePhoto,
                                 ),
+                                SizedBox(height: 8),
                                 Column(
                                   children: [
                                     InkWell(
@@ -165,14 +165,14 @@ class VideoScreen extends StatelessWidget {
                                           videoController.likeVideo(data.id),
                                       child: Icon(
                                         Icons.favorite,
-                                        size: 40,
+                                        size: 32,
                                         color: data.likes.contains(
                                                 authController.user.uid)
                                             ? Colors.red
                                             : Colors.white,
                                       ),
                                     ),
-                                    const SizedBox(height: 7),
+                                    // const SizedBox(height: 7),
                                     Text(
                                       data.likes.length.toString(),
                                       style: const TextStyle(
@@ -184,6 +184,7 @@ class VideoScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: [
+                                  SizedBox(height: 8),
                                     InkWell(
                                       onTap: () => Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -194,11 +195,11 @@ class VideoScreen extends StatelessWidget {
                                       ),
                                       child: const Icon(
                                         Icons.comment,
-                                        size: 40,
+                                        size: 32,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    const SizedBox(height: 7),
+                                    // const SizedBox(height: 7),
                                     Text(
                                       data.commentCount.toString(),
                                       style: const TextStyle(
@@ -210,15 +211,16 @@ class VideoScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: [
+                                  SizedBox(height: 8),
                                     InkWell(
                                       onTap: () {},
                                       child: const Icon(
                                         Icons.reply,
-                                        size: 40,
+                                        size: 32,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    const SizedBox(height: 7),
+                                    // const SizedBox(height: 7),
                                     Text(
                                       data.shareCount.toString(),
                                       style: const TextStyle(
@@ -228,6 +230,7 @@ class VideoScreen extends StatelessWidget {
                                     )
                                   ],
                                 ),
+                                SizedBox(height: 8),
                                 CircleAnimation(
                                   child: buildMusicAlbum(data.profilePhoto),
                                 ),

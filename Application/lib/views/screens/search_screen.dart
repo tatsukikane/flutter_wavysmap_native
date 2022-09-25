@@ -16,7 +16,7 @@ class SearchScreen extends StatelessWidget {
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade300,
+          backgroundColor: Color.fromARGB(255, 5, 5, 226),
           title: TextFormField(
             decoration: const InputDecoration(
               filled: false,
