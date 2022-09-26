@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/controllers/profile_controller.dart';
+import 'package:flutter_wavysmap_native/views/user_search_screen.dart';
+import 'package:flutter_wavysmap_native/views/user_search_screen.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -37,8 +39,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.black12,
-              leading: const Icon(
-                Icons.person_add_alt_1_outlined,
+              leading: IconButton(
+                icon: Icon(Icons.person_add_alt_1_outlined),
+                onPressed: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => UserSearchScreen(),
+                      ),
+                    );
+                  print("userサーチスクリーンへ遷移させる");
+                },
               ),
               actions: const [
                 Icon(Icons.more_horiz),

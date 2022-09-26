@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:tiktok/controllers/search_controller.dart';
 import 'package:flutter_wavysmap_native/controllers/search_controller.dart';
+import 'package:flutter_wavysmap_native/views/screens/board_screen.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_wavysmap_native/models/user.dart';
@@ -20,27 +21,20 @@ class SearchScreen extends StatelessWidget {
           title: TextFormField(
             decoration: const InputDecoration(
               filled: false,
-              hintText: 'ユーザー名',
+              hintText: 'イベント・掲示板検索',
               hintStyle: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
-              icon: Icon(Icons.person_search)
+              icon: Icon(Icons.content_paste_search)
             ),
+            //TODO:掲示板検索に変える
             onFieldSubmitted: (value) => searchController.searchUser(value),
           ),
         ),
+        // body: BoardScreen(),
         body: searchController.searchedUsers.isEmpty
-            ? const Center(
-                child: Text(
-                  'Search for users!',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
+            ? BoardScreen()
             : ListView.builder(
                 itemCount: searchController.searchedUsers.length,
                 itemBuilder: (context, index) {

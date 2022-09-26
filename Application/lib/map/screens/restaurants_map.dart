@@ -195,6 +195,10 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
               minMaxZoomPreference: const MinMaxZoomPreference(10, 17), //mapのzoom範囲
               //スタイルの変更
               styleString: "mapbox://styles/tatsukikane/cl7fymo0l000n15pkggakbwf4",
+              onMapClick: (point, coordinates) {
+                //TODO: tapした位置のlatlng取得
+                print(coordinates);
+              },
             ),
           ),
           Padding(

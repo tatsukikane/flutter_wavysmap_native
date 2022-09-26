@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_wavysmap_native/main.dart';
 import 'package:flutter_wavysmap_native/map/helpers/shared_prefs.dart';
 import 'package:flutter_wavysmap_native/video_upload/video_upload.dart';
+import 'package:flutter_wavysmap_native/views/screens/board_add_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/views/screens/confirm_screen.dart';
@@ -145,6 +146,17 @@ class AddVideoScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                //テスト
+                ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BoardAddScreen(),
+                      ),
+                    );
+                  },
+                  child: Text("テスト"))
                 // InkWell(
                 //   onTap: (){
                 //     CloudStorageService().uploadVideo(ref, context);
