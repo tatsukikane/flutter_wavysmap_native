@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_wavysmap_native/models/board_model.dart';
 import 'package:get/get.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
+import 'package:image_picker/image_picker.dart';
 
 //掲示板
 //コメントの処理
 class BoardController extends GetxController {
   final Rx<List<Board>> _comments = Rx<List<Board>>([]);
   List<Board> get comments => _comments.value;
+  late Rx<File?> _pickedImage;
 
   String _postId = "";
 
@@ -108,5 +112,15 @@ class BoardController extends GetxController {
         'likes': FieldValue.arrayUnion([uid]),
       });
     }
+  }
+
+  void pickImage() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      Get.snackbar('Profile Picture',
+          'You have successfully selected your profile picture!');
+    }
+    _pickedImage = Rx<File?>(File(pickedImage!.path));
   }
 }
