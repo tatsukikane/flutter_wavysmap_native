@@ -26,7 +26,7 @@ class BoardScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: SizedBox(
             width: size.width,
             height: size.height - 176,
@@ -73,7 +73,7 @@ class BoardScreen extends StatelessWidget {
                               width: 140,
                               fit: BoxFit.cover,
                               // imageUrl: restaurants[index]['image'],
-                              imageUrl: comment.profilePhoto,
+                              imageUrl: comment.boardPicture,
                             ),
                             Expanded(
                               child: Container(
@@ -82,6 +82,15 @@ class BoardScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.today),
+                                        Text(
+                                          comment.scheduledDate
+                                        ),
+                                      ],
+
+                                    ),
                                     Row(
                                       children: [
                                         Icon(Icons.person),

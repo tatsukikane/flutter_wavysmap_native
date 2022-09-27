@@ -146,17 +146,46 @@ class AddVideoScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 24),
                 //テスト
-                ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BoardAddScreen(),
-                      ),
+                SizedBox(
+                  width: 190,
+                  height: 50,
+                  child: ElevatedButton(
+                    child: Text(
+                      '掲示板',
+                    ),
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BoardAddScreen(),
+                        ),
                     );
-                  },
-                  child: Text("テスト"))
+                    },
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // ElevatedButton(
+                //   onPressed: (){
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (_) => BoardAddScreen(),
+                //       ),
+                //     );
+                //   },
+                //   child: Text("掲示板"))
                 // InkWell(
                 //   onTap: (){
                 //     CloudStorageService().uploadVideo(ref, context);

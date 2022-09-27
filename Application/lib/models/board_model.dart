@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 //掲示板
 class Board {
   String username;
@@ -8,7 +10,10 @@ class Board {
   String profilePhoto;
   String uid;
   String id;
-  String? boardPicture;  //写真の添付もできるようにする
+  String boardPicture;  //写真の添付もできるようにする
+  String? latlng;
+  String scheduledDate;
+
 
   Board({
     required this.username,
@@ -18,7 +23,9 @@ class Board {
     required this.profilePhoto,
     required this.uid,
     required this.id,
-    this.boardPicture
+    required this.boardPicture,
+    this.latlng,
+    required this.scheduledDate
   });
 
   Map<String, dynamic> toJson() => {
@@ -29,7 +36,10 @@ class Board {
         'profilePhoto': profilePhoto,
         'uid': uid,
         'id': id,
-        'boardPicture': boardPicture
+        'boardPicture': boardPicture,
+        'latlng': latlng,
+        'scheduledDate': scheduledDate
+
       };
 
   static Board fromSnap(DocumentSnapshot snap) {
@@ -43,6 +53,8 @@ class Board {
       uid: snapshot['uid'],
       id: snapshot['id'],
       boardPicture: snapshot['boardPicture'],
+      latlng: snapshot['latlng'],
+      scheduledDate: snapshot['scheduledDate']
     );
   }
 }

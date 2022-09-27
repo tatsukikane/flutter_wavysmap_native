@@ -31,7 +31,7 @@ class _BoardDetailScreenState extends State<BoardDetailScreen> {
             width: size.width,
             fit: BoxFit.cover,
             // imageUrl: restaurants[index]['image'],
-            imageUrl: widget.bordDeta.profilePhoto,
+            imageUrl: widget.bordDeta.boardPicture,
           ),
           Expanded(
             child: Container(
@@ -41,6 +41,18 @@ class _BoardDetailScreenState extends State<BoardDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      Icon(Icons.today),
+                      Text(
+                        widget.bordDeta.scheduledDate,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16
+                        ),
+                      ),
+                    ],
+                  ),
                   Text(
                     // restaurants[index]['name'],
                     widget.bordDeta.username,

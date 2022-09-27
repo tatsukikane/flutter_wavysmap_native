@@ -75,7 +75,7 @@ class SearchScreen extends StatelessWidget {
                               width: 140,
                               fit: BoxFit.cover,
                               // imageUrl: restaurants[index]['image'],
-                              imageUrl: board.profilePhoto,
+                              imageUrl: board.boardPicture,
                             ),
                             Expanded(
                               child: Container(
@@ -84,6 +84,14 @@ class SearchScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.today),
+                                        Text(
+                                          board.scheduledDate
+                                        ),
+                                      ],
+                                    ),
                                     Row(
                                       children: [
                                         Icon(Icons.person),

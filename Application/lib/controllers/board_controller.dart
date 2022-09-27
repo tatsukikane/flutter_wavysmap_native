@@ -1,10 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/models/board_model.dart';
+import 'package:flutter_wavysmap_native/views/screens/home_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 
 //掲示板
 //コメントの処理
@@ -38,9 +42,21 @@ class BoardController extends GetxController {
       ),
     );
   }
+
+  // upload to firebase storage
+  Future<String> _uploadToStorage(File image, len) async {
+    Reference ref = FirebaseStorage.instanceFor(bucket: "gs://board-image")
+        .ref()
+        .child('Board $len');
+
+    UploadTask uploadTask = ref.putFile(image);
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
+    return downloadUrl;
+  }
   
   //投稿
-  postComment(String commentText) async {
+  postComment(context, String commentText, filepath, selectedLatlng, scheduledDate) async {
     try {
       if (commentText.isNotEmpty) {
         DocumentSnapshot userDoc = await firestore
@@ -52,6 +68,8 @@ class BoardController extends GetxController {
             .get();
         int len = allDocs.docs.length;
 
+        final downloadUrl = await _uploadToStorage(filepath,len);
+
         Board board = Board(
           username: (userDoc.data()! as dynamic)['name'],
           comment: commentText.trim(),
@@ -60,7 +78,9 @@ class BoardController extends GetxController {
           profilePhoto: (userDoc.data()! as dynamic)['profilePhoto'],
           uid: authController.user.uid,
           id: 'Comment $len',
-          boardPicture: "imagepickerから取ったURL入れる null許容", 
+          boardPicture: downloadUrl, 
+          latlng: selectedLatlng.toString(),
+          scheduledDate: scheduledDate
         );
         //データの追加
         await firestore
@@ -69,6 +89,15 @@ class BoardController extends GetxController {
             .set(
               board.toJson(),
             );
+        //処理終了後に画面遷移
+        Get.snackbar('掲示板',
+          '投稿完了！');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => HomeScreen(),
+          ),
+        );
         // DocumentSnapshot doc =
         //     await firestore.collection('board').doc(_postId).get();
         // await firestore.collection('board').doc(_postId).update({
@@ -114,7 +143,7 @@ class BoardController extends GetxController {
     }
   }
 
-  void pickImage() async {
+  pickImage() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -122,5 +151,24 @@ class BoardController extends GetxController {
           'You have successfully selected your profile picture!');
     }
     _pickedImage = Rx<File?>(File(pickedImage!.path));
+    return File(pickedImage.path);
+  }
+
+  //ローディング
+  void showProgressDialog(context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: false,
+      transitionDuration: Duration.zero, // これを入れると遅延を入れなくて
+      barrierColor: Colors.black.withOpacity(0.8),
+      pageBuilder: (BuildContext context, Animation animation,
+          Animation secondaryAnimation) {
+        return  Center(
+          child: Lottie.asset(
+            'assets/alien-space.json',
+          ),
+        );
+      },
+    );
   }
 }

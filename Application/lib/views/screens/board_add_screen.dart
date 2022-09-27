@@ -1,12 +1,16 @@
 //掲示板投稿用
 //TODO: 写真、コメント、緯度軽度を入れられる様にする。
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_wavysmap_native/controllers/board_controller.dart';
+import 'package:flutter_wavysmap_native/views/screens/add_board_map.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class BoardAddScreen extends StatefulWidget {
   BoardAddScreen({super.key});
@@ -20,120 +24,164 @@ class _BoardAddScreenState extends State<BoardAddScreen> {
   BoardController bordController = Get.put(BoardController());
   var targetday;
   var viewday = "予定日を選択";
+  dynamic pickedImage = AssetImage("assets/image/city_landscape.jpeg");
+  var selectedLatlng ;
+  var filepath;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-              SizedBox(
-                  height: 480,
-                  width: MediaQuery.of(context).size.width,
-                  child: Container(
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage("assets/image/city_landscape.jpeg")
-                          )
+      resizeToAvoidBottomInset: false,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Container(
+              alignment: Alignment.center,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                    SizedBox(
+                        height: 480,
+                        width: MediaQuery.of(context).size.width,
+                        child: Container(
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image(
+                                  fit: BoxFit.cover,
+                                  image: pickedImage
+                                )
+                            ),
+                        )),
+                      // const CircleAvatar(
+                      //   radius: 64,
+                      //   backgroundImage: AssetImage("assets/icon/alien.png"),
+                      //   backgroundColor: Color.fromARGB(255, 100, 181, 246),
+                      // ),
+                      Center(
+                        child: Container(
+                          height: 480,
+                          // bottom: -10,
+                          // left: 80,
+                          child: IconButton(
+                            // onPressed: () => bordController.pickImage(),
+                            onPressed: ()async{
+                              filepath = await bordController.pickImage();
+                              setState(() {
+                                pickedImage = FileImage(filepath);
+                              });
+                            },
+                            
+                            icon: const Icon(
+                              size: 56,
+                              Icons.add_a_photo,
+                            ),
+                          ),
+                        ),
                       ),
-                  )),
-                // const CircleAvatar(
-                //   radius: 64,
-                //   backgroundImage: AssetImage("assets/icon/alien.png"),
-                //   backgroundColor: Color.fromARGB(255, 100, 181, 246),
-                // ),
-                Center(
-                  child: Container(
-                    height: 480,
-                    // bottom: -10,
-                    // left: 80,
-                    child: IconButton(
-                      onPressed: () => bordController.pickImage(),
-                      icon: const Icon(
-                        size: 56,
-                        Icons.add_a_photo,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit_calendar,
+                        color: Colors.white, size: 30.0),
+                        // ボタンが押されたときに表示する
+                        onPressed: () {
+                          var now = DateTime.now();
+                          DatePicker.showDatePicker(context,
+                            showTitleActions: true,
+                            minTime: DateTime(now.year, now.month, now.day),
+                            maxTime: DateTime(now.year + 1, 12, 31), 
+                            onConfirm: (date) {
+                              setState(() {
+                                print(targetday);
+                                  targetday = date;
+                                  viewday = date.toString().split(' ')[0];
+                                  print(targetday);
+                              });
+                            },
+                            currentTime: targetday, locale: LocaleType.jp
+                          );
+                        },
+                      ),
+                      Text(
+                        viewday
+                      )
+                    ],
+                  ),
+                  ListTile(
+                    title: TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      minLines: 1,
+                      maxLines: 4,
+                      controller: _boardAddController,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'キャプションを入力...',
+                        labelStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit_calendar,
-                  color: Colors.white, size: 30.0),
-                  // ボタンが押されたときに表示する
-                  onPressed: () {
-                    var now = DateTime.now();
-                    DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime(now.year, now.month, now.day),
-                      maxTime: DateTime(2049, 12, 31), 
-                      onConfirm: (date) {
-                        setState(() {
-                          print(targetday);
-                            targetday = date;
-                            viewday = date.toString().split(' ')[0];
-                            print(targetday);
-                        });
+                    trailing: TextButton(
+                      onPressed: () {
+                          bordController.postComment(context, _boardAddController.text, filepath, selectedLatlng, targetday.toString().split(" ")[0]);
+                          bordController.showProgressDialog(context);
                       },
-                      currentTime: targetday, locale: LocaleType.jp
-                    );
-                  },
-                ),
-                Text(
-                  viewday
-                )
-              ],
-            ),
-            ListTile(
-              title: TextFormField(
-                keyboardType: TextInputType.multiline,
-                maxLines: 4,
-                controller: _boardAddController,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-                decoration: const InputDecoration(
-                  labelText: 'キャプションを入力...',
-                  labelStyle: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
+                      child: const Text(
+                        'Send',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
+                  Center(
+                    child: SizedBox(
+                      height: 160,
+                      width: 160,
+                      child: InkWell(
+                        onTap: () async {
+                          selectedLatlng =
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AddBoardMap(),
+                              ),
+                            );
+                          print(selectedLatlng);
+                        },
+                        child: Lottie.asset(
+                          'assets/earth-globe-map.json',
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              trailing: TextButton(
-                onPressed: () =>
-                    bordController.postComment(_boardAddController.text),
-                child: const Text(
-                  'Send',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
+                  )
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
