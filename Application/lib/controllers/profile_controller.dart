@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_wavysmap_native/models/video.dart';
 import 'package:get/get.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 
@@ -121,5 +122,20 @@ class ProfileController extends GetxController {
     }
     _user.value.update('isFollowing', (value) => !value);
     update();
+  }
+
+  //サムネイルから、動画のコレクションを取得
+  getVideo(profImgPath) async{
+    var videoCollection;
+    final citiesRef = await firestore.collection("videos");
+    final _query = await citiesRef.where("thumbnail", isEqualTo: profImgPath);
+    final _data = await _query.get();
+    final queryDocSnapshot = await _data.docs;
+    for (final snapshot in queryDocSnapshot) {
+      final data = await snapshot.data();
+      videoCollection = await data;
+      // print("ここ$data");
+    }
+    return videoCollection;
   }
 }

@@ -47,106 +47,106 @@ class _BoardDetailScreenState extends State<BoardDetailScreen> {
             // imageUrl: restaurants[index]['image'],
             imageUrl: widget.bordDeta.boardPicture,
           ),
-              Expanded(
-                child: Stack(
-                  children:[ 
-                    Container(
-                      height: 240,
-                      width: size.width,
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          Expanded(
+            child: Stack(
+              children:[ 
+                Container(
+                  height: 240,
+                  width: size.width,
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Icon(Icons.today),
-                              Text(
-                                widget.bordDeta.scheduledDate,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16
-                                ),
-                              ),
-                            ],
-                          ),
+                          Icon(Icons.today),
                           Text(
-                            widget.bordDeta.username,
+                            widget.bordDeta.scheduledDate,
                             style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                          Text(widget.bordDeta.comment),
-                          const Spacer(),
-                          Container(
-                            height: 64,
-                            width: MediaQuery.of(context).size.width,
-                            child: FutureBuilder(
-                              future: _videoOutput(),
-                              builder: (context,snapshot){
-                                return widget.bordDeta.likes.length > 0
-                                  ? ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      // physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.zero,
-                                      itemCount: (snapshot.data as List).length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        final list = snapshot.data as List;
-                                        return Padding(
-                                          padding: const EdgeInsets.only(right: 8.0),
-                                          child: Container(
-                                            height: 56,
-                                            width: 56,
-                                            child: InkWell(
-                                              highlightColor: Colors.blue.withOpacity(1),
-                                              splashColor: Colors.grey.withOpacity(0.7),
-                                              onTap: (){
-                                                //TODO: ikuyoボタンで表示されるアイコンをタップした際の挙動
-                                                print(list);
-                                              },
-                                              child:ClipOval(
-                                                  child: CachedNetworkImage(
-                                                    height: 30,
-                                                    width: 30,
-                                                    fit: BoxFit.cover,
-                                                    imageUrl: list[index]
-                                                  ),
-                                                )
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                  )
-                                  :const Text("Ikuyoスタンプを押して参加しよう!");
-                              }
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16
                             ),
-                          )
+                          ),
                         ],
                       ),
-                    ),
-                    Positioned(
-                      top: 10.0,
-                      left: size.width - 70,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(16),
-                        highlightColor: Colors.blue.withOpacity(1),
-                        splashColor: Colors.grey.withOpacity(0.7),
-                        onTap: (){
-                          IkuyoController().updatePostId(widget.bordDeta.id);
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          child: Container(
-                            width: 56,
-                            height: 56,
-                            child: Image.asset('assets/icon/ikuyo-moji.png',fit: BoxFit.contain),
-                          ), 
-                        ),
+                      Text(
+                        widget.bordDeta.username,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
                       ),
-                    ),
-                  ]
+                      Text(widget.bordDeta.comment),
+                      const Spacer(),
+                      Container(
+                        height: 64,
+                        width: MediaQuery.of(context).size.width,
+                        child: FutureBuilder(
+                          future: _videoOutput(),
+                          builder: (context,snapshot){
+                            return widget.bordDeta.likes.length > 0
+                              ? ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  // physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  itemCount: (snapshot.data as List).length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    final list = snapshot.data as List;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: Container(
+                                        height: 56,
+                                        width: 56,
+                                        child: InkWell(
+                                          highlightColor: Colors.blue.withOpacity(1),
+                                          splashColor: Colors.grey.withOpacity(0.7),
+                                          onTap: (){
+                                            //TODO: ikuyoボタンで表示されるアイコンをタップした際の挙動
+                                            print(list);
+                                          },
+                                          child:ClipOval(
+                                              child: CachedNetworkImage(
+                                                height: 30,
+                                                width: 30,
+                                                fit: BoxFit.cover,
+                                                imageUrl: list[index]
+                                              ),
+                                            )
+                                        ),
+                                      ),
+                                    );
+                                  },
+                              )
+                              :const Text("Ikuyoスタンプを押して参加しよう!");
+                          }
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+                Positioned(
+                  top: 10.0,
+                  left: size.width - 70,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    highlightColor: Colors.blue.withOpacity(1),
+                    splashColor: Colors.grey.withOpacity(0.7),
+                    onTap: (){
+                      IkuyoController().updatePostId(widget.bordDeta.id);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: Container(
+                        width: 56,
+                        height: 56,
+                        child: Image.asset('assets/icon/ikuyo-moji.png',fit: BoxFit.contain),
+                      ), 
+                    ),
+                  ),
+                ),
+              ]
+            ),
+          ),
         ],
       ),
     );
