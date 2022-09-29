@@ -20,6 +20,7 @@ class BoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    var ikuyoProfImage = "";
     // bordController.updatePostId(id);
     bordController.getComment();
 
@@ -42,7 +43,16 @@ class BoardScreen extends StatelessWidget {
                   itemCount: bordController.comments.length,
                   itemBuilder: (BuildContext context, int index) {
                     final comment = bordController.comments[index];
+
+                    // if(comment.likes.length > 0) {
+                    //   var ikuyoProfImage = bordController.getPlofImage(comment.likes[0]);
+                    //   print("----------------");
+                    //   print(ikuyoProfImage);
+                    // }
+
                     return InkWell(
+                      highlightColor: Colors.blue.withOpacity(1),
+                      splashColor: Colors.grey.withOpacity(0.7),
                       onTap: (){
                         showDialog(
                           context: context, 
@@ -110,9 +120,16 @@ class BoardScreen extends StatelessWidget {
                                     // Text(restaurants[index]['items']),
                                     // Text(products[index].caption),
                                     const Spacer(),
-                                    Text(
-                                      "ここにスタンプを表示させる"
-                                    )
+                                    // comment.likes.length > 0
+                                    // // ?Text(comment.likes[0])
+                                    // ?CachedNetworkImage(
+                                    //   height: 30,
+                                    //   width: 30,
+                                    //   fit: BoxFit.cover,
+                                    //   // imageUrl: restaurants[index]['image'],
+                                    //   imageUrl: ikuyoProfImage,
+                                    // )
+                                    // :Text("スタンプ"),
                                     // Row(
                                     //   children: [
                                     //     cardButtons(Icons.call, 'Call'),

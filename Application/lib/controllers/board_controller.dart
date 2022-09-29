@@ -77,7 +77,7 @@ class BoardController extends GetxController {
           likes: [],
           profilePhoto: (userDoc.data()! as dynamic)['profilePhoto'],
           uid: authController.user.uid,
-          id: 'Comment $len',
+          id: 'Board $len',
           boardPicture: downloadUrl, 
           latlng: selectedLatlng.toString(),
           scheduledDate: scheduledDate
@@ -171,4 +171,20 @@ class BoardController extends GetxController {
       },
     );
   }
+
+  // //スタンプ用プロフ画像取得
+  // getPlofImage(uid) {
+  //   final docRef = firestore.collection("users").doc(uid);
+  //   docRef.get().then(
+  //     (DocumentSnapshot doc) {
+  //       final data = doc.data() as Map<String, dynamic>;
+  //       return(data['profilePhoto']);
+  //     },
+  //     onError: (e) => print("Error getting document: $e"),
+  //   );
+  //   // print(uid);
+  //   // var profImage = firestore.collection('users').doc(uid).collection('profilePhoto').doc().get();
+  //   // print(profImage);
+  //   // return profImage;
+  // }
 }
