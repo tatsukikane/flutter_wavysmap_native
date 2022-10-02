@@ -11,6 +11,7 @@ import 'package:flutter_wavysmap_native/map/helpers/shared_prefs.dart';
 import 'package:flutter_wavysmap_native/map/main.dart';
 import 'package:flutter_wavysmap_native/map/ui/splash.dart';
 import 'package:flutter_wavysmap_native/map/widgets/carousel_card.dart';
+import 'dart:math' as math;
 
 //MapPinID管理リスト
 List mapPinIdList = [];
@@ -125,11 +126,13 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
 
   _onStyleLoadedCallback() async {
     for(CameraPosition _kRestaurant in _kRestaurantsList){
+      var random = math.Random();
+      var randomInt = random.nextInt(10) + 1;
       var pin = await controller.addSymbol(SymbolOptions(
         geometry: _kRestaurant.target,
         iconSize: 0.2,
         //アイコン変更
-        iconImage: "assets/icon/skate-park2.png",
+        iconImage: "assets/icon/pin${randomInt}.png",
       ));
       //生成したMapPinのIDを配列に追加
       mapPinIdList.add(pin.id);
@@ -192,9 +195,11 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
               // onSymbolTapped: _onSymbolTap,
               myLocationEnabled: true,
               myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
-              minMaxZoomPreference: const MinMaxZoomPreference(10, 17), //mapのzoom範囲
+              minMaxZoomPreference: const MinMaxZoomPreference(1, 17), //mapのzoom範囲
               //スタイルの変更
-              styleString: "mapbox://styles/tatsukikane/cl7fymo0l000n15pkggakbwf4",
+              // styleString: "mapbox://styles/tatsukikane/cl7fymo0l000n15pkggakbwf4",
+              //V2
+              styleString: "mapbox://styles/tatsukikane/cl8ocqer4000014p3ciej69jj",
               onMapClick: (point, coordinates) {
                 //TODO: tapした位置のlatlng取得
                 print(coordinates);

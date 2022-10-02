@@ -227,7 +227,12 @@ class _video_dialogState extends State<video_dialog> {
                             ],
                           ),
                           CircleAnimation(
-                            child: buildMusicAlbum(widget.videodeta.profilePhoto),
+                            // child: buildMusicAlbum(widget.videodeta.profilePhoto),
+                            child: SizedBox(
+                              width: 80,
+                              height: 70,
+                              child: Image.asset('assets/icon/bmx_logo.png',fit: BoxFit.contain)
+                            ),
                           ),
                         ],
                       ),
