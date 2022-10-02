@@ -222,8 +222,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   context: context, 
                                   builder: (BuildContext context){
                                     return profile_video_dialog(videodeta: videoCollection);
-                                }
-      );
+                                  }
+                                );
                                 print(videoCollection["videoUrl"]);
                               },
                               child: CachedNetworkImage(

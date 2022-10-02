@@ -27,7 +27,7 @@ class _BoardDetailScreenState extends State<BoardDetailScreen> {
     for(var i = 0; i < list.length; i++){
       imgList.add(await ikuyoController.getPlofImage(list[i]));
     }
-    return await imgList;
+    return imgList;
   }
 
   @override
@@ -83,41 +83,112 @@ class _BoardDetailScreenState extends State<BoardDetailScreen> {
                         child: FutureBuilder(
                           future: _videoOutput(),
                           builder: (context,snapshot){
-                            return widget.bordDeta.likes.length > 0
-                              ? ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  // physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  itemCount: (snapshot.data as List).length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final list = snapshot.data as List;
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 8.0),
-                                      child: Container(
-                                        height: 56,
-                                        width: 56,
-                                        child: InkWell(
-                                          highlightColor: Colors.blue.withOpacity(1),
-                                          splashColor: Colors.grey.withOpacity(0.7),
-                                          onTap: (){
-                                            //TODO: ikuyoボタンで表示されるアイコンをタップした際の挙動
-                                            print(list);
-                                          },
-                                          child:ClipOval(
-                                              child: CachedNetworkImage(
-                                                height: 30,
-                                                width: 30,
-                                                fit: BoxFit.cover,
-                                                imageUrl: list[index]
-                                              ),
-                                            )
+                            List<Widget> children;
+                            //データが入るまでは、ローディングを入れる為のif文
+                            if (snapshot.hasData) {
+                              children = <Widget>[
+                                widget.bordDeta.likes.length > 0
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    // physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.zero,
+                                    itemCount: (snapshot.data as List).length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      final list = snapshot.data as List;
+                                      return Padding(
+                                        padding: const EdgeInsets.only(right: 8.0),
+                                        child: Container(
+                                          height: 56,
+                                          width: 56,
+                                          child: InkWell(
+                                            highlightColor: Colors.blue.withOpacity(1),
+                                            splashColor: Colors.grey.withOpacity(0.7),
+                                            onTap: (){
+                                              //TODO: ikuyoボタンで表示されるアイコンをタップした際の挙動
+                                              print(list);
+                                            },
+                                            child:ClipOval(
+                                                child: CachedNetworkImage(
+                                                  height: 30,
+                                                  width: 30,
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: list[index]
+                                                ),
+                                              )
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                              )
-                              :const Text("Ikuyoスタンプを押して参加しよう!");
+                                      );
+                                    },
+                                )
+                                :const Text("Ikuyoスタンプを押して参加しよう!")
+                              ];
+                            //snapshotにデータが格納されていなかった場合
+                            } else if (snapshot.hasError) {
+                              children = <Widget>[
+                                const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                  size: 60,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16),
+                                  child: Text('Error: ${snapshot.error}',
+                                      style: TextStyle(
+                                        color: Colors.red,)),
+                                )
+                              ];
+                            //ロード中
+                            } else {
+                              children = <Widget>[
+                                SizedBox(
+                                  child: CircularProgressIndicator(),
+                                  width: 60,
+                                  height: 60,
+                                ),
+                              ];
+                            }
+                            return Row(
+                                children: children,
+                            );
+
+
+
+                            // return widget.bordDeta.likes.length > 0
+                            //   ? ListView.builder(
+                            //       scrollDirection: Axis.horizontal,
+                            //       // physics: const NeverScrollableScrollPhysics(),
+                            //       shrinkWrap: true,
+                            //       padding: EdgeInsets.zero,
+                            //       itemCount: (snapshot.data as List).length,
+                            //       itemBuilder: (BuildContext context, int index) {
+                            //         final list = snapshot.data as List;
+                            //         return Padding(
+                            //           padding: const EdgeInsets.only(right: 8.0),
+                            //           child: Container(
+                            //             height: 56,
+                            //             width: 56,
+                            //             child: InkWell(
+                            //               highlightColor: Colors.blue.withOpacity(1),
+                            //               splashColor: Colors.grey.withOpacity(0.7),
+                            //               onTap: (){
+                            //                 //TODO: ikuyoボタンで表示されるアイコンをタップした際の挙動
+                            //                 print(list);
+                            //               },
+                            //               child:ClipOval(
+                            //                   child: CachedNetworkImage(
+                            //                     height: 30,
+                            //                     width: 30,
+                            //                     fit: BoxFit.cover,
+                            //                     imageUrl: list[index]
+                            //                   ),
+                            //                 )
+                            //             ),
+                            //           ),
+                            //         );
+                            //       },
+                            //   )
+                            //   :const Text("Ikuyoスタンプを押して参加しよう!");
                           }
                         ),
                       )
