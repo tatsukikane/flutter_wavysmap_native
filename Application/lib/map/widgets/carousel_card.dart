@@ -30,7 +30,7 @@ Widget carouselCard(int index, num distance, num duration, BuildContext context)
     child: Card(
       clipBehavior: Clip.antiAlias,
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,8 +54,11 @@ Widget carouselCard(int index, num distance, num duration, BuildContext context)
                   Row(
                     children: [
                       Icon(Icons.chat,size: 16,),
-                      Text(products[index].caption,
-                          overflow: TextOverflow.ellipsis),
+                      Flexible(
+                        child: Text(products[index].caption,
+                            overflow: TextOverflow.ellipsis
+                            ),
+                      ),
                     ],
                   ),
                   Row(
