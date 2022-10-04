@@ -6,6 +6,7 @@ import 'package:flutter_wavysmap_native/main.dart';
 import 'package:flutter_wavysmap_native/map/helpers/shared_prefs.dart';
 import 'package:flutter_wavysmap_native/video_upload/video_upload.dart';
 import 'package:flutter_wavysmap_native/views/screens/board_add_screen.dart';
+import 'package:flutter_wavysmap_native/views/widgets/card.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/views/screens/confirm_screen.dart';
@@ -105,73 +106,128 @@ class AddVideoScreen extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(
-                  width: 190,
-                  height: 50,
-                  child: ElevatedButton(
-                    child: Text(
-                      'Add Video',
+                // SizedBox(
+                //   width: 190,
+                //   height: 50,
+                //   child: ElevatedButton(
+                //     child: Text(
+                //       'Add Video',
+                //     ),
+                //     onPressed: () => showOptionsDialog(context),
+                //     style: ElevatedButton.styleFrom(
+                //       textStyle: TextStyle(
+                //         fontSize: 20,
+                //       ),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.all(
+                //           Radius.circular(20),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 24),
+                // SizedBox(
+                //   width: 190,
+                //   height: 50,
+                //   child: ElevatedButton(
+                //     child: Text(
+                //       'Auto Trimming',
+                //     ),
+                //     onPressed: () => CloudStorageService().uploadVideo(ref, context),
+                //     style: ElevatedButton.styleFrom(
+                //       textStyle: TextStyle(
+                //         fontSize: 20,
+                //       ),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.all(
+                //           Radius.circular(20),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 24),
+                // //テスト
+                // SizedBox(
+                //   width: 190,
+                //   height: 50,
+                //   child: ElevatedButton(
+                //     child: Text(
+                //       '掲示板',
+                //     ),
+                //     onPressed: (){
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (_) => BoardAddScreen(),
+                //         ),
+                //     );
+                //     },
+                //     style: ElevatedButton.styleFrom(
+                //       textStyle: TextStyle(
+                //         fontSize: 20,
+                //       ),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.all(
+                //           Radius.circular(20),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(height: 24),
+                InkWell(
+                  onTap: () => showOptionsDialog(context),
+                  child: TransparentImageCard(
+                    width: MediaQuery.of(context).size.height,
+                    imageProvider: AssetImage('assets/image/alien.jpeg'),
+                    title: Text(
+                      '動画投稿',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
-                    onPressed: () => showOptionsDialog(context),
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                        fontSize: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
+                    description: Text(
+                      'カメラから動画を投稿',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
                 SizedBox(height: 24),
-                SizedBox(
-                  width: 190,
-                  height: 50,
-                  child: ElevatedButton(
-                    child: Text(
-                      'Auto Trimming',
+                InkWell(
+                  onTap: () => CloudStorageService().uploadVideo(ref, context),
+                  child: TransparentImageCard(
+                    width: MediaQuery.of(context).size.height,
+                    imageProvider: AssetImage('assets/image/alien2.jpeg'),
+                    title: Text(
+                      '自動トリミング',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
-                    onPressed: () => CloudStorageService().uploadVideo(ref, context),
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                        fontSize: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
+                    description: Text(
+                      'おまかせ自動編集でサクッと投稿',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
                 SizedBox(height: 24),
-                //テスト
-                SizedBox(
-                  width: 190,
-                  height: 50,
-                  child: ElevatedButton(
-                    child: Text(
-                      '掲示板',
-                    ),
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => BoardAddScreen(),
-                        ),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BoardAddScreen(),
+                      ),
                     );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                        fontSize: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
+                  },
+                  child: TransparentImageCard(
+                    width: MediaQuery.of(context).size.height,
+                    imageProvider: AssetImage('assets/icon.jpeg'),
+                    title: Text(
+                      '掲示板',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+                    ),
+                    description: Text(
+                      '自由に仲間を募集しよう',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
