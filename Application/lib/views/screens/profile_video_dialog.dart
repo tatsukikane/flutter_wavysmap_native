@@ -148,14 +148,16 @@ class _video_dialogState extends State<profile_video_dialog> {
                       ),
                     ),
                     Container(
-                      width: 100,
-                      margin: EdgeInsets.only(top: size.height / 5),
+                      width: 56,
+                      margin: EdgeInsets.only(top: size.height / 3),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           buildProfile(
                             widget.videodeta["profilePhoto"],
                           ),
+                          SizedBox(height: 8),
                           Column(
                             children: [
                               InkWell(
@@ -163,14 +165,14 @@ class _video_dialogState extends State<profile_video_dialog> {
                                     videoController.likeVideo(widget.videodeta["id"]),
                                 child: Icon(
                                   Icons.favorite,
-                                  size: 40,
+                                  size: 32,
                                   color: widget.videodeta["likes"].contains(
                                           authController.user.uid)
                                       ? Colors.red
                                       : Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 7),
+                              // const SizedBox(height: 7),
                               Text(
                                 widget.videodeta["likes"].length.toString(),
                                 style: const TextStyle(
@@ -182,6 +184,7 @@ class _video_dialogState extends State<profile_video_dialog> {
                           ),
                           Column(
                             children: [
+                              SizedBox(height: 8),
                               InkWell(
                                 onTap: () => Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -192,11 +195,11 @@ class _video_dialogState extends State<profile_video_dialog> {
                                 ),
                                 child: const Icon(
                                   Icons.comment,
-                                  size: 40,
+                                  size: 32,
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 7),
+                              // const SizedBox(height: 7),
                               Text(
                                 widget.videodeta["commentCount"].toString(),
                                 style: const TextStyle(
@@ -206,28 +209,32 @@ class _video_dialogState extends State<profile_video_dialog> {
                               )
                             ],
                           ),
-                          Column(
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: const Icon(
-                                  Icons.reply,
-                                  size: 40,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(height: 7),
-                              Text(
-                                widget.videodeta["shareCount"].toString(),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
+                          // Column(
+                          //   children: [
+                          //     InkWell(
+                          //       onTap: () {},
+                          //       child: const Icon(
+                          //         Icons.reply,
+                          //         size: 40,
+                          //         color: Colors.white,
+                          //       ),
+                          //     ),
+                          //     const SizedBox(height: 7),
+                          //     Text(
+                          //       widget.videodeta["shareCount"].toString(),
+                          //       style: const TextStyle(
+                          //         fontSize: 20,
+                          //         color: Colors.white,
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
                           CircleAnimation(
-                            child: buildMusicAlbum(widget.videodeta["profilePhoto"]),
+                            child: SizedBox(
+                              width: 80,
+                              height: 70,
+                              child: Image.asset('assets/icon/bmx_logo.png',fit: BoxFit.contain)
+                            ),
                           ),
                         ],
                       ),
