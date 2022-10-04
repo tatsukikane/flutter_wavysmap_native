@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_wavysmap_native/views/screens/home_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 
 import '../main.dart';
 import '../video_editor/video_editor.dart';
@@ -152,10 +153,13 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: LoadingAnimationWidget.inkDrop(  //この部分
-              color: Colors.white,
-              size: 100,
-            ),
+            child: Lottie.asset(
+            'assets/alien-space.json',
+          ),
+            // child: LoadingAnimationWidget.inkDrop(  //この部分
+            //   color: Colors.white,
+            //   size: 100,
+            // ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 56.0),

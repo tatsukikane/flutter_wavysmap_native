@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_wavysmap_native/controllers/board_controller.dart';
 import 'package:flutter_wavysmap_native/video_editor/video_editor.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:lottie/lottie.dart';
 
 import '../firestore/firestore_page.dart';
 
@@ -80,10 +84,12 @@ class CloudStorageService {
 
   //【解析用動画のアップロード関数】
   void uploadVideo(WidgetRef ref, context) async {
+
     try{
       //動画を選択
       final ImagePicker picker = ImagePicker();
       final XFile? pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+      showProgressDialog(context);
 
       File file = File(pickedFile!.path);
 
@@ -148,3 +154,43 @@ class CloudStorageService {
     }
   }
 }
+
+  //ローディング
+  void showProgressDialog(context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: false,
+      transitionDuration: Duration.zero, // これを入れると遅延を入れなくて
+      barrierColor: Colors.black.withOpacity(0.8),
+      pageBuilder: (BuildContext context, Animation animation,
+          Animation secondaryAnimation) {
+        return  Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Lottie.asset(
+                'assets/alien-city.json',
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 56.0),
+                  child: Center(
+                    child: DefaultTextStyle(
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                      ),
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          WavyAnimatedText('動画読み込み中....'),
+                        ],
+                          // isRepeatingAnimation: true,
+                          repeatForever: true
+                      ),
+                    )
+                  ),
+                )
+            ],
+          ),
+        );
+      },
+    );
+  }

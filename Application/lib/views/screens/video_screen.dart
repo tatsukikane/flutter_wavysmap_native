@@ -112,25 +112,27 @@ class VideoScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(
-                                    data.username,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    data.caption,
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                    ),
+                                  Row(
+                                    children: [
+                                      // const Icon(
+                                      //   Icons.person,
+                                      //   size: 20,
+                                      //   color: Colors.white,
+                                      // ),
+                                      Text(
+                                        data.username,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   Row(
                                     children: [
                                       const Icon(
-                                        Icons.music_note,
+                                        Icons.place,
                                         size: 15,
                                         color: Colors.white,
                                       ),
@@ -143,7 +145,23 @@ class VideoScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.chat,
+                                        size: 15,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        data.caption,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
@@ -152,7 +170,7 @@ class VideoScreen extends StatelessWidget {
                             width: 56,
                             margin: EdgeInsets.only(top: size.height / 3),
                             child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 buildProfile(
                                   data.profilePhoto,
@@ -209,27 +227,28 @@ class VideoScreen extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                Column(
-                                  children: [
-                                  SizedBox(height: 8),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: const Icon(
-                                        Icons.reply,
-                                        size: 32,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    // const SizedBox(height: 7),
-                                    Text(
-                                      data.shareCount.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                //[reply]
+                                // Column(
+                                //   children: [
+                                //   SizedBox(height: 8),
+                                //     InkWell(
+                                //       onTap: () {},
+                                //       child: const Icon(
+                                //         Icons.reply,
+                                //         size: 32,
+                                //         color: Colors.white,
+                                //       ),
+                                //     ),
+                                //     // const SizedBox(height: 7),
+                                //     Text(
+                                //       data.shareCount.toString(),
+                                //       style: const TextStyle(
+                                //         fontSize: 20,
+                                //         color: Colors.white,
+                                //       ),
+                                //     )
+                                //   ],
+                                // ),
                                 SizedBox(height: 8),
                                 CircleAnimation(
                                   child: buildMusicAlbum(data.profilePhoto),
