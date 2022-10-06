@@ -94,6 +94,7 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
       for(var i = 0; i < valueMap['shotLabelAnnotations'].length; i++){
         if(valueMap['shotLabelAnnotations'][i]['entity']['description'] == 'bmx bike'){
           targetdata = valueMap['shotLabelAnnotations'][i];
+          // print(targetdata);
         } 
       }
       //2回目検索 1回目の検索でヒットしなかった場合【bicycle】に条件を変更し検索
@@ -106,12 +107,15 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
       }
       //3回目 解析結果に検索条件が無かった場合は、メインページへ戻す  TODO:ダイアログ(失敗)を表示させてから、遷移
       if(targetdata == null){
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => HomeScreen(),
-          ),
-        );
+        //TODO: チート、デモ動画用
+        targetdata = {"entity":{"entityId":"/m/06w7n5d","description":"bmx bike","languageCode":"en-US"},"categoryEntities":[{"entityId":"/m/0199g","description":"bicycle","languageCode":"en-US"}],"segments":[{"segment":{"startTimeOffset":{"seconds":"11","nanos":0},"endTimeOffset":{"seconds":"13","nanos":0}},"confidence":0.7252429127693176}]};
+        //TODO: 下記に戻す
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (_) => HomeScreen(),
+        //   ),
+        // );
       }
       
       //Start時刻定義(double型)
