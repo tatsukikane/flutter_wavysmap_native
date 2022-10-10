@@ -95,7 +95,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       onPressed: () => uploadVideoController.uploadVideo(
                           _songController.text,
                           _captionController.text,
-                          widget.videoPath),
+                          widget.videoPath,
+                          controller
+                        ),
                       child: const Text(
                         'Share!',
                         style: TextStyle(

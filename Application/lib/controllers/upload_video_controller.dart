@@ -13,6 +13,7 @@ import 'package:flutter_wavysmap_native/models/video.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:video_compress/video_compress.dart';
+import 'package:video_player/video_player.dart';
 
 class UploadVideoController extends GetxController {
   _compressVideo(String videoPath) async {
@@ -48,7 +49,7 @@ class UploadVideoController extends GetxController {
   }
 
   // upload video
-  uploadVideo(String songName, String caption, String videoPath) async {
+  uploadVideo(String songName, String caption, String videoPath, controller) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
       DocumentSnapshot userDoc =
@@ -98,6 +99,8 @@ class UploadVideoController extends GetxController {
       //下記に行Map上のpinを更新
       await get();
       await pinsUpdate();
+      //動画のStop
+      await controller.pause();
 
       Get.to(HomeScreen());
     } catch (e) {
