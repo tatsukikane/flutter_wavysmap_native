@@ -9,7 +9,15 @@ import 'package:flutter_wavysmap_native/views/screens/profile_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/search_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/video_screen.dart';
 
-//ボトムバー用ページリスト
+//ボトムバー用ページリスト(パッケージ利用)
+// List<Widget> pages = <Widget>[
+//   VideoScreen(),
+//   RestaurantsMap(),
+//   const AddVideoScreen(),
+//   SearchScreen(),
+//   ProfileScreen(uid: authController.user.uid),
+// ];
+//変更前 パッケージ使わない場合
 List pages = [
   VideoScreen(),
   RestaurantsMap(),

@@ -89,7 +89,10 @@ class CloudStorageService {
       //動画を選択
       final ImagePicker picker = ImagePicker();
       final XFile? pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+      if(pickedFile != null){
       showProgressDialog(context);
+      }
+      // showProgressDialog(context);
 
       File file = File(pickedFile!.path);
 
