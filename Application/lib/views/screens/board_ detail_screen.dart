@@ -141,7 +141,7 @@ class _BoardDetailScreenState extends State<BoardDetailScreen> {
                             //ロード中
                             } else {
                               children = <Widget>[
-                                SizedBox(
+                                const SizedBox(
                                   child: CircularProgressIndicator(),
                                   width: 60,
                                   height: 60,

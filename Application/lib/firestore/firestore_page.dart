@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_wavysmap_native/views/screens/home_screen.dart';
+import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 
@@ -108,14 +109,27 @@ class FirestorePageState extends ConsumerState<FirestorePage>{
       //3回目 解析結果に検索条件が無かった場合は、メインページへ戻す  TODO:ダイアログ(失敗)を表示させてから、遷移
       if(targetdata == null){
         //TODO: チート、デモ動画用
-        targetdata = {"entity":{"entityId":"/m/06w7n5d","description":"bmx bike","languageCode":"en-US"},"categoryEntities":[{"entityId":"/m/0199g","description":"bicycle","languageCode":"en-US"}],"segments":[{"segment":{"startTimeOffset":{"seconds":"11","nanos":0},"endTimeOffset":{"seconds":"13","nanos":0}},"confidence":0.7252429127693176}]};
-        //TODO: 下記に戻す
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (_) => HomeScreen(),
-        //   ),
-        // );
+        // targetdata = {"entity":{"entityId":"/m/06w7n5d","description":"bmx bike","languageCode":"en-US"},"categoryEntities":[{"entityId":"/m/0199g","description":"bicycle","languageCode":"en-US"}],"segments":[{"segment":{"startTimeOffset":{"seconds":"11","nanos":0},"endTimeOffset":{"seconds":"13","nanos":0}},"confidence":0.7252429127693176}]};
+        //TODO: 下記標準
+        //解析不能時Snackbar
+        Get.snackbar(
+          '動画自動解析',
+          '解析不能。動画投稿ページから投稿してください。Sorry...😢',
+          icon:const Text(
+            "😢",
+            style: TextStyle(
+              fontSize: 40
+            ),
+            ),
+          duration: const Duration(seconds: 4),
+        );
+        Navigator.push(
+          context,
+          //TODO: ボトムバーが消えないようにして、add_video_screenに飛ばす
+          MaterialPageRoute(
+            builder: (_) => HomeScreen(),
+          ),
+        );
       }
       
       //Start時刻定義(double型)
