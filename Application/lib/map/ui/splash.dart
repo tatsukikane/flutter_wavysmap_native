@@ -55,7 +55,6 @@ late AnimationController _controller;
             doc['latitude'],
             doc['longitude'],
         )).toList();
-        print("ここやで");
         // print(products[0].);
   }
 

@@ -140,7 +140,6 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
     }
     print('リスト$mapPinIdList');
     _addSourceAndLineLayer(0);
-
   }
 
   //マークをタップしたときに Symbol の情報を表示する

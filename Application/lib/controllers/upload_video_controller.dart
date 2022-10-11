@@ -72,6 +72,8 @@ class UploadVideoController extends GetxController {
         videoUrl: videoUrl,
         profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
         thumbnail: thumbnail,
+        latitude: sharedPreferences.getDouble('latitude')!,
+        longitude: sharedPreferences.getDouble('longitude')!
       );
 
       //FirestoreへのPin情報の登録

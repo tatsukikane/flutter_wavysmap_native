@@ -5,12 +5,14 @@ import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/controllers/video_controller.dart';
 // import 'package:tiktok/views/screens/comment_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/comment_screen.dart';
+import 'package:flutter_wavysmap_native/views/screens/video_latlang_map_screen.dart';
 // import 'package:tiktok/views/widgets/circle_animation.dart';
 import 'package:flutter_wavysmap_native/views/widgets/circle_animation.dart';
 // import 'package:tiktok/views/widgets/video_player_item.dart';
 import 'package:flutter_wavysmap_native/views/widgets/video_player_item.dart';
 
 import 'package:get/get.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
@@ -226,6 +228,26 @@ class VideoScreen extends StatelessWidget {
                                       ),
                                     )
                                   ],
+                                ),
+                                const SizedBox(height: 8),
+                                InkWell(
+                                  onTap: (){
+                                    //TODO: Pin立てた状態のMap上に飛ばす
+                                    LatLng position = LatLng(data.latitude, data.longitude);
+                                    print(position);
+                                    Navigator.push(
+                                      context, 
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoLatlangMap(position: position)
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "🌏",
+                                    style: TextStyle(
+                                      fontSize: 32
+                                    ),
+                                  ),
                                 ),
                                 //[reply]
                                 // Column(
