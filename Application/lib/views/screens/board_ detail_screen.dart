@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_wavysmap_native/controllers/ikuyo_controller.dart';
+import 'package:flutter_wavysmap_native/views/screens/video_latlang_map_screen.dart';
 import 'package:get/get.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 import '../../controllers/board_controller.dart';
 
@@ -40,12 +42,43 @@ class _BoardDetailScreenState extends State<BoardDetailScreen> {
           borderRadius: BorderRadius.circular(15)),
       child: Column(
         children: [
-          CachedNetworkImage(
-            height: size.height / 5,
-            width: size.width,
-            fit: BoxFit.cover,
-            // imageUrl: restaurants[index]['image'],
-            imageUrl: widget.bordDeta.boardPicture,
+          Stack(
+            children: [
+              CachedNetworkImage(
+                height: size.height / 5,
+                width: size.width,
+                fit: BoxFit.cover,
+                // imageUrl: restaurants[index]['image'],
+                imageUrl: widget.bordDeta.boardPicture,
+              ),
+              //掲示板の位置情報をMap上で確認
+              Positioned(
+                top: 100,
+                right: 10,
+                child: InkWell(
+                  onTap: (){
+                    //LatLng型に変換できなかった為、文字列操作
+                    final stringLatLng = widget.bordDeta.latlng.split(",");
+                    double lat = double.parse(stringLatLng[0].split("(")[1]);
+                    double lng = double.parse(stringLatLng[1].split(")")[0]);
+              
+                    LatLng position = LatLng(lat, lng);
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => VideoLatlangMap(position: position)
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "🌏",
+                    style: TextStyle(
+                      fontSize: 48
+                    ),
+                  ),
+                ),
+              ),
+            ]
           ),
           Expanded(
             child: Stack(
