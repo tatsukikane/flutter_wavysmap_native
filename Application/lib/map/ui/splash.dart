@@ -117,7 +117,7 @@ late AnimationController _controller;
         ),
         Material(
           color: Color.fromARGB(137, 49, 48, 48),
-          child: Center(child: Image.asset('assets/image/logo_blue2.png')),
+          child: Center(child: Image.asset('assets/image/logo3.png')),
         ),
         // Center(
         //   child: Lottie.asset(

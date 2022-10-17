@@ -24,7 +24,7 @@ void main() async {
   sharedPreferences = await SharedPreferences.getInstance();
   await dotenv.load(fileName: "assets/config/.env");
   // Firebase.initializeApp().then((value) {
-  //   Get.put(AuthController());
+    // Get.put(AuthController());
   // });
     runApp(
     const ProviderScope(child: MyApp()),

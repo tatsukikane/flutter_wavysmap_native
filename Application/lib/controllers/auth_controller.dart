@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_wavysmap_native/controllers/profile_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,7 +30,6 @@ class AuthController extends GetxController {
   _setInitialScreen(User? user) {
     if (user == null) {
       Get.offAll(() => LoginScreen());
-      print("a");
     } else {
       Get.offAll(() => const HomeScreen());
       print(user);
@@ -117,6 +117,9 @@ class AuthController extends GetxController {
   }
 
   void signOut() async {
+    // print("サインアウト");
+    // await Get.delete<ProfileController>();
     await firebaseAuth.signOut();
+    // await Get.deleteAll();
   }
 }
