@@ -4,7 +4,6 @@ import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/controllers/comment_controller.dart';
 import 'package:timeago/timeago.dart' as tago;
 
-//TODO:コメント機能をいくよ！機能に変えちゃう
 
 class CommentScreen extends StatelessWidget {
   final String id;
