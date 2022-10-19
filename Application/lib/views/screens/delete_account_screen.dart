@@ -42,7 +42,7 @@ class _DeleteAccountScreen extends State<DeleteAccountScreen> {
           appBar: AppBar(
             backgroundColor: Colors.black12,
             title: Text(
-              controller.user['name'],
+              "退会申請",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -50,7 +50,6 @@ class _DeleteAccountScreen extends State<DeleteAccountScreen> {
             ),
           ),
           body: SafeArea(
-            child: SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(
@@ -204,15 +203,29 @@ class _DeleteAccountScreen extends State<DeleteAccountScreen> {
                             ),
                           ),
                         ),
-                        // const SizedBox(
-                        //   height: 25,
-                        // ),
+                        SizedBox(height: MediaQuery.of(context).size.height / 6),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 64,
+                            width: MediaQuery.of(context).size.width,
+                            child: Card(
+                              child: const Text(
+                                '【開発元連絡先】15210124kt@gmail.com',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              color: Colors.black54, // Card自体の色
+                              // margin: EdgeInsets.all(30),
+                              elevation: 10, // 影の離れ具合
+                              shadowColor: Colors.grey, // 影の色
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ],
               ),
-            ),
           ),
         );
       }
