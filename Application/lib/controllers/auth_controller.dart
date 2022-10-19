@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_wavysmap_native/controllers/profile_controller.dart';
@@ -121,5 +122,18 @@ class AuthController extends GetxController {
     // await Get.delete<ProfileController>();
     await firebaseAuth.signOut();
     // await Get.deleteAll();
+  }
+
+  void deleteAccount(uid) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final targetUid = uid;
+    // userコレクションを削除
+    final msg =
+        await FirebaseFirestore.instance.collection('users').doc(targetUid).delete();
+    // ユーザーを削除
+    await user?.delete();
+    await FirebaseAuth.instance.signOut();
+    Get.snackbar('delete account',
+    'アカウント削除が削除されました。またお待ちしています😁');
   }
 }
