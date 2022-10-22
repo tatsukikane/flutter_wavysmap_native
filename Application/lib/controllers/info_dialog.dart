@@ -9,10 +9,12 @@ import 'package:get/get.dart';
 
 class infoDialogController extends GetxController {
 
-  static addInfo(id) {
-   FirebaseFirestore.instance.collection('reports_inappropriate').add({
+  static addInfo(id) async{
+   await FirebaseFirestore.instance.collection('reports_inappropriate').add({
       'videoid' : id
    });
+  Get.snackbar('動画報告申請',
+  '対象の動画の報告申請が完了しました');
    print("報告完了");
   }
   
