@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:tiktok/constants.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
+import 'package:flutter_wavysmap_native/controllers/info_dialog.dart';
 // import 'package:tiktok/controllers/video_controller.dart';
 import 'package:flutter_wavysmap_native/controllers/video_controller.dart';
 // import 'package:tiktok/views/screens/comment_screen.dart';
@@ -92,6 +93,43 @@ class VideoScreen extends StatelessWidget {
               children: [
                 VideoPlayerItem(
                   videoUrl: data.videoUrl,
+                ),
+                //ヘルプページ
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(height: 96,),
+                     InkWell(
+                      onTap: (){
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SimpleDialog(
+                              title: Text("ヘルプページ"),
+                              children: <Widget>[
+                                //投稿報告
+                                SimpleDialogOption(
+                                  onPressed: () => infoDialogController.addInfo(data.id),
+                                  child: Text("投稿を報告する"),
+                                ),
+                                SimpleDialogOption(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("ユーザーをブロックする"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 8),
+                        child: Icon(
+                          Icons.help_outline,
+                          size: 32,
+                        ),
+                      )
+                     ),
+                  ],
                 ),
                 Column(
                   children: [
