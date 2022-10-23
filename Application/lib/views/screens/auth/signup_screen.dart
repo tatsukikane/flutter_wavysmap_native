@@ -2,16 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/views/screens/auth/login_screen.dart';
 import 'package:flutter_wavysmap_native/views/widgets/text_input_field.dart';
+import 'package:get/get.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class SignupScreen extends StatelessWidget {
+
+class SignupScreen extends StatefulWidget {
   SignupScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
+
   final TextEditingController _usernameController = TextEditingController();
-  
+
+  var agree = 0;
+
+//利用規約ダイアログ
+Future<void> _showStartDialog() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('利用規約'),
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 2,
+            child: const WebView(
+                initialUrl: 'https://tatsukikane.github.io/wavysmap_privacypolicy/',  //表示したいWebページを指定する
+              ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('同意しない'),
+            ),
+            TextButton(
+              onPressed:() {
+                agree = 1;
+                Navigator.pop(context);
+              },
+              // onPressed: () => Navigator.pop(context),
+              child: Text('同意する'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
+  void initState() {
+      super.initState();
+      WidgetsBinding.instance!.addPostFrameCallback(
+              (_) => _showStartDialog()
+      );
+    }
   Widget build(BuildContext context) {
     final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
     return SafeArea(
@@ -114,12 +164,26 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                       child: InkWell(
-                        onTap: () => authController.registerUser(
-                          _usernameController.text,
-                          _emailController.text,
-                          _passwordController.text,
-                          authController.profilePhoto,
-                        ),
+                        onTap: (){
+                          //利用規約の同意可否判断
+                          if (agree == 1){
+                            authController.registerUser(
+                              _usernameController.text,
+                              _emailController.text,
+                              _passwordController.text,
+                              authController.profilePhoto,
+                            );
+                          } else {
+                            Get.snackbar('新規登録',
+                              '登録する場合は、利用規約に同意してください');
+                          }
+                        },
+                        // onTap: () => authController.registerUser(
+                        //   _usernameController.text,
+                        //   _emailController.text,
+                        //   _passwordController.text,
+                        //   authController.profilePhoto,
+                        // ),
                         child: const Center(
                           child: Text(
                             'Register',
