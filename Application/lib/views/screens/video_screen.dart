@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/controllers/info_dialog.dart';
 import 'package:flutter_wavysmap_native/controllers/video_controller.dart';
+import 'package:flutter_wavysmap_native/map/ui/splash.dart';
 import 'package:flutter_wavysmap_native/views/screens/comment_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/video_latlang_map_screen.dart';
 import 'package:flutter_wavysmap_native/views/widgets/circle_animation.dart';
@@ -109,11 +110,23 @@ class VideoScreen extends StatelessWidget {
                                   child: Text("投稿を報告する"),
                                 ),
                                 SimpleDialogOption(
-                                  onPressed: (){
-                                    userBlockDialogController.addBlockList(data.uid);
+                                  onPressed: ()async{
+                                    await userBlockDialogController.addBlockList(data.uid);
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (_) => Splash(),
+                                    //   ),
+                                    // );
                                   },
                                   child: const Text("ユーザーをブロックする"),
                                 ),
+                                // SimpleDialogOption(
+                                //   onPressed: (){
+                                //     userBlockDialogController.unblock();
+                                //   },
+                                //   child: const Text("ユーザーをブロック解除する"),
+                                // ),
                               ],
                             );
                           },

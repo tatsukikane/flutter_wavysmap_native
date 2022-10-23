@@ -5,24 +5,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/main.dart';
 import 'package:get/get.dart';
+import 'package:flutter_wavysmap_native/main.dart';
 
 
 
 class userBlockDialogController extends GetxController {
 
   static addBlockList(id) async{
-   await FirebaseFirestore.instance
-   .collection('users')
-   .doc(authController.user.uid)
-   .collection('blocklist')
-   .add({
-      'videoid' : id
-   });
-   Get.snackbar('ユーザーブロック',
+   //TODO: 本来はこっちで、アプリ内で、ブロック済みユーザーのデータのフィルタリングをかける
+  //  await FirebaseFirestore.instance
+  //  .collection('users')
+  //  .doc(authController.user.uid)
+  //  .collection('blocklist')
+  //  .add({
+  //     'videoid' : id
+  //  });
+
+  //ブロックしたユーザーのUIDを、ユーザーデフォルトに保存
+  await sharedPreferences.setString('blockedUser', id);
+  Get.snackbar('ユーザーブロック',
     '対象のユーザーのブロックが完了しました');
-    print("ブロック完了");
+   //審査用
+  //   await FirebaseFirestore.instance
+  //  .collection('blocklist')
+  //  .doc('block')
+  //  .set({
+  //     'userid' : id
+  //  });
+  //  Get.snackbar('ユーザーブロック',
+  //   '対象のユーザーのブロックが完了しました');
+  //   print("ブロック完了");
+    //splashスクリーンに戻せばいいのでは？
   }
-  
+
+  //ブロック解除 ユーザーデフォルトの削除
+  // static unblock() async{
+  //   final success = await sharedPreferences.remove('blockedUser');
+  //   Get.snackbar('ユーザーブロック解除',
+  //     '対象のユーザーのブロック解除が完了しました');
+  // }
 
 }
 

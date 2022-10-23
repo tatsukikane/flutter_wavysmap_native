@@ -40,22 +40,54 @@ late AnimationController _controller;
     get();
     initializeLocationAndSave();
   }
+  //ユーザーブロック機能 ユーザーデフォルト
+  final String? blockedUser = sharedPreferences.getString('blockedUser');
+
 
   Future get() async{
-    var collection = await FirebaseFirestore.instance.collection('pins').get();
-    products = collection.docs.map((doc) => PinModel(
-            doc['username'],
-            doc['uid'],
-            doc['id'],
-            doc['videoId'],
-            doc['spotName'],
-            doc['caption'],
-            doc['videoUrl'],
-            doc['thumbnail'],
-            doc['latitude'],
-            doc['longitude'],
-        )).toList();
-        // print(products[0].);
+    //TODO: ユーザーブロック機能 Mapフィルタリング
+    if (blockedUser != null){
+      var collection = await FirebaseFirestore.instance.collection('pins').where('uid', isNotEqualTo: blockedUser).get();
+      products = collection.docs.map((doc) => PinModel(
+              doc['username'],
+              doc['uid'],
+              doc['id'],
+              doc['videoId'],
+              doc['spotName'],
+              doc['caption'],
+              doc['videoUrl'],
+              doc['thumbnail'],
+              doc['latitude'],
+              doc['longitude'],
+          )).toList();
+    } else{
+      var collection = await FirebaseFirestore.instance.collection('pins').get();
+      products = collection.docs.map((doc) => PinModel(
+              doc['username'],
+              doc['uid'],
+              doc['id'],
+              doc['videoId'],
+              doc['spotName'],
+              doc['caption'],
+              doc['videoUrl'],
+              doc['thumbnail'],
+              doc['latitude'],
+              doc['longitude'],
+          )).toList();
+    }
+    // var collection = await FirebaseFirestore.instance.collection('pins').get();
+    // products = collection.docs.map((doc) => PinModel(
+    //         doc['username'],
+    //         doc['uid'],
+    //         doc['id'],
+    //         doc['videoId'],
+    //         doc['spotName'],
+    //         doc['caption'],
+    //         doc['videoUrl'],
+    //         doc['thumbnail'],
+    //         doc['latitude'],
+    //         doc['longitude'],
+    //     )).toList();
   }
 
   void initializeLocationAndSave() async {
