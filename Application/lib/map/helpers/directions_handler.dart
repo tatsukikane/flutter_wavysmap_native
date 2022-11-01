@@ -7,6 +7,7 @@ import '../constants/restaurants.dart';
 import '../requests/mapbox_requests.dart';
 
 Future<Map> getDirectionsAPIResponse(LatLng currentLatLng, int index) async {
+  //getCyclingRouteUsingMapboxで並び替えてる
   final response = await getCyclingRouteUsingMapbox(
       currentLatLng,
       //ローカルJsondata使用

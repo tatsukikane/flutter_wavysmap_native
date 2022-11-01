@@ -21,10 +21,20 @@ class CommentScreen extends StatelessWidget {
     commentController.updatePostId(id);
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading:IconButton(
+          icon: Icon(Icons.undo, size: 40, color: Colors.white,),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: SizedBox(
           width: size.width,
-          height: size.height,
+          height: size.height - size.height / 7,
           child: Column(
             children: [
               Expanded(

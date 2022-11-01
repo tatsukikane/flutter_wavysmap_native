@@ -133,7 +133,7 @@ class VideoScreen extends StatelessWidget {
                         );
                       },
                       child: Container(
-                        margin: EdgeInsets.only(right: 8),
+                        margin: EdgeInsets.only(right: 16, top: 8),
                         child: Icon(
                           Icons.help_outline,
                           size: 32,
@@ -218,7 +218,7 @@ class VideoScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 56,
+                            width: 64,
                             margin: EdgeInsets.only(top: size.height / 3),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
