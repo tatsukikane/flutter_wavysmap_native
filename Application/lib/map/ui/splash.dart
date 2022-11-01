@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,6 +40,27 @@ late AnimationController _controller;
     _controller = AnimationController(vsync: this);
     get();
     initializeLocationAndSave();
+    //簡易エラーハンドル(申請用)
+    // Future.delayed(
+    //   Duration(seconds: 10),
+    //   () =>{
+    //     showDialog(
+    //       context: context,
+    //       builder: (_){
+    //         return AlertDialog(
+    //           title: Text('このアプリは現在位置が日本国内以外の場合利用できません'),
+    //           content: Text('アプリを閉じてください。'),
+    //           // actions: <Widget>[
+    //           //   GestureDetector(
+    //           //     child: Text('はい'),
+    //           //     onTap: () {},
+    //           //   )
+    //           // ],
+    //         );
+    //       }
+    //     )
+    //   },
+    // );
   }
   //ユーザーブロック機能 ユーザーデフォルト
   final String? blockedUser = sharedPreferences.getString('blockedUser');
@@ -136,6 +158,8 @@ late AnimationController _controller;
         MaterialPageRoute(builder: (_) => LoginScreen()),
         (route) => false);
   }
+
+  
 
   @override
   Widget build(BuildContext context) {

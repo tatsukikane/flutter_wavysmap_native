@@ -60,7 +60,7 @@ dependencies:
   mapbox_gl: ^0.15.0
   flutter_native_splash: ^2.0.2
   shared_preferences: ^2.0.13
-  location: ^4.3.0
+  location: ^4.4.0
   carousel_slider: ^4.0.0
   dio: ^4.0.4
   flutter_dotenv: ^5.0.2
