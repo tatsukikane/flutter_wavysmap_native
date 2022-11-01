@@ -37,7 +37,16 @@ class AuthController extends GetxController {
     }
   }
 
-  void pickImage() async {
+  // void pickImage() async {
+  //   final pickedImage =
+  //       await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   if (pickedImage != null) {
+  //     Get.snackbar('Profile Picture',
+  //         'You have successfully selected your profile picture!');
+  //   }
+  //   _pickedImage = Rx<File?>(File(pickedImage!.path));
+  // }
+  pickImage() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -45,6 +54,7 @@ class AuthController extends GetxController {
           'You have successfully selected your profile picture!');
     }
     _pickedImage = Rx<File?>(File(pickedImage!.path));
+    return File(pickedImage.path);
   }
 
   // upload to firebase storage

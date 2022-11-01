@@ -83,6 +83,15 @@ class _BoardAddScreenState extends State<BoardAddScreen> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(top:24.0),
+                        child: IconButton(
+                          icon: const Icon(Icons.undo, size: 40, color: Colors.white),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      )
                     ],
                   ),
                   Row(

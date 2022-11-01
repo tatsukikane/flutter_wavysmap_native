@@ -22,6 +22,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
   var agree = 0;
 
+  //プロフ画像管理
+  dynamic pickedImage = AssetImage("assets/icon/alien.png");
+  //プロフ画像切り替え用 @ath
+  var filepath;
+
 //利用規約ダイアログ
 Future<void> _showStartDialog() async {
     return showDialog<void>(
@@ -97,16 +102,22 @@ Future<void> _showStartDialog() async {
                     ),
                     Stack(
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 64,
-                          backgroundImage: AssetImage("assets/icon/alien.png"),
+                          backgroundImage: pickedImage,
                           backgroundColor: Color.fromARGB(255, 100, 181, 246),
                         ),
                         Positioned(
                           bottom: -10,
                           left: 80,
                           child: IconButton(
-                            onPressed: () => authController.pickImage(),
+                            onPressed: () async{
+                              filepath = await authController.pickImage();
+                              setState(() {
+                                pickedImage = FileImage(filepath);
+                              });
+                            },
+                            // onPressed: () => authController.pickImage(),
                             icon: const Icon(
                               Icons.add_a_photo,
                             ),
