@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/views/screens/auth/login_screen.dart';
@@ -60,6 +61,26 @@ Future<void> _showStartDialog() async {
     );
   }
 
+//入力エラーダイアログ
+Future<void> _errorDialog(message) async {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return CupertinoAlertDialog(
+        title: Text("入力エラー"),
+        content: Text(message),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text("OK"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
   @override
   void initState() {
       super.initState();
@@ -102,10 +123,18 @@ Future<void> _showStartDialog() async {
                     ),
                     Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 64,
-                          backgroundImage: pickedImage,
-                          backgroundColor: Color.fromARGB(255, 100, 181, 246),
+                        InkWell(
+                          onTap: () async{
+                              filepath = await authController.pickImage();
+                              setState(() {
+                                pickedImage = FileImage(filepath);
+                              });
+                            },
+                          child: CircleAvatar(
+                            radius: 64,
+                            backgroundImage: pickedImage,
+                            backgroundColor: Color.fromARGB(255, 100, 181, 246),
+                          ),
                         ),
                         Positioned(
                           bottom: -10,
@@ -178,12 +207,26 @@ Future<void> _showStartDialog() async {
                         onTap: (){
                           //利用規約の同意可否判断
                           if (agree == 1){
-                            authController.registerUser(
-                              _usernameController.text,
-                              _emailController.text,
-                              _passwordController.text,
-                              authController.profilePhoto,
-                            );
+                            //入力チェック
+                            if(_usernameController.text == "" || _emailController.text == "" || _passwordController.text == ""){
+                              _errorDialog("全項目入力してください。");
+                              //画像選択チェック
+                            }else if(filepath == null){
+                              _errorDialog("プロフィール画像を設定してください。");
+                            }else{
+                              authController.registerUser(
+                                _usernameController.text,
+                                _emailController.text,
+                                _passwordController.text,
+                                authController.profilePhoto,
+                              );
+                            }
+                            // authController.registerUser(
+                            //   _usernameController.text,
+                            //   _emailController.text,
+                            //   _passwordController.text,
+                            //   authController.profilePhoto,
+                            // );
                           } else {
                             Get.snackbar('新規登録',
                               '登録する場合は、利用規約に同意してください');
