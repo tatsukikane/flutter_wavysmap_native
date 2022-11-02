@@ -112,11 +112,21 @@ late AnimationController _controller;
     //     )).toList();
   }
 
+  //位置情報の許可がされなかった際の初期値
+  Future<LocationData> getLocation() async {
+    return LocationData.fromMap(<String, double>{
+      'latitude': 35.65980096106451,
+      'longitude': 139.70081144278382,
+    });
+  }
+
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
     Location _location = Location();
     bool? _serviceEnabled;
     PermissionStatus? _permissionGranted;
+    //初期位置情報
+    LocationData _locationData = await getLocation();
 
     _serviceEnabled = await _location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -127,13 +137,18 @@ late AnimationController _controller;
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _location.requestPermission();
     }
+    
 
-    // ユーザーの現在地を取得する
-    LocationData _locationData = await _location.getLocation();
+    // ユーザーの現在地を取得
+    if(_serviceEnabled && _permissionGranted == PermissionStatus.granted){
+      _locationData = await _location.getLocation();
+    }
+    // _locationData = await _location.getLocation();
+    print("ここ${_locationData}");
     LatLng currentLatLng =
         LatLng(_locationData.latitude!, _locationData.longitude!);
 
-    // Store the user location in sharedPreferences
+    // sharedPreferencesにユーザーロケーションを格納
     sharedPreferences.setDouble('latitude', _locationData.latitude!);
     sharedPreferences.setDouble('longitude', _locationData.longitude!);
 
@@ -142,11 +157,11 @@ late AnimationController _controller;
 
 
     // for (int i = 0; i < restaurants.length; i++) {
-    for (int i = 0; i < products.length; i++) {
-      //リスト内要素をAPIに渡す
-      Map modifiedResponse = await getDirectionsAPIResponse(currentLatLng, i);
-      saveDirectionsAPIResponse(i, json.encode(modifiedResponse));
-    }
+    // for (int i = 0; i < products.length; i++) {
+    //   //リスト内要素をAPIに渡す
+    //   Map modifiedResponse = await getDirectionsAPIResponse(currentLatLng, i);
+    //   saveDirectionsAPIResponse(i, json.encode(modifiedResponse));
+    // }
 
     Firebase.initializeApp().then((value) {
       Get.put(AuthController());
