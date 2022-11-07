@@ -49,24 +49,42 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
     //デフォルトのzoomレベル
     _initialCameraPosition = CameraPosition(target: latlng, zoom: 15);
 
+
     // SharedPreferencesのデータから距離と時間を計算products
-    // for(int index =0; index < restaurants.length; index++){
+    //距離計算で並び替え無しバージョン---------------------------------
     for(int index =0; index < products.length; index++){
-      num distance = getDistanceFromSharedPrefs(index)/1000;
-      num duration = getDurationFromSharedPrefs(index)/60;
-      carouselData.add({'index': index, 'distance': distance, 'duration': duration});
+      // num distance = getDistanceFromSharedPrefs(index)/1000;
+      // num duration = getDurationFromSharedPrefs(index)/60;
+      carouselData.add({'index': index});
       print(carouselData);
     }
-    //並び替え
-    carouselData.sort((a,b)=>a['duration']<b['duration'] ? 0 : 1);
 
     // カルーセルウィジェットの一覧を生成
     carouselItems = List<Widget>.generate(
-      // restaurants.length,
       products.length,
-      (index) => carouselCard(carouselData[index]['index'], 
-        carouselData[index]['distance'], carouselData[index]['duration'], context)
+      (index) => carouselCard(carouselData[index]['index'], context)
     );
+
+//TODO:距離計算で並び替えありバージョン(carousel_card.dartのも戻す箇所あり)
+    // for(int index =0; index < products.length; index++){
+    //   num distance = getDistanceFromSharedPrefs(index)/1000;
+    //   num duration = getDurationFromSharedPrefs(index)/60;
+    //   carouselData.add({'index': index, 'distance': distance, 'duration': duration});
+    //   print(carouselData);
+    // }
+    // //並び替え
+    // carouselData.sort((a,b)=>a['duration']<b['duration'] ? 0 : 1);
+
+    // // カルーセルウィジェットの一覧を生成
+    // carouselItems = List<Widget>.generate(
+    //   // restaurants.length,
+    //   products.length,
+    //   (index) => carouselCard(carouselData[index]['index'], 
+    //     carouselData[index]['distance'], carouselData[index]['duration'], context)
+    // );
+//----------------------------------------------------
+
+
 
     // initialize map symbols in the same order as carousel widgets
     _kRestaurantsList = List<CameraPosition>.generate(

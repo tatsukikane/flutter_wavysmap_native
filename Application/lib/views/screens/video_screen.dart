@@ -145,7 +145,7 @@ class VideoScreen extends StatelessWidget {
                 Column(
                   children: [
                     const SizedBox(
-                      height: 100,
+                      height: 56,
                     ),
                     Expanded(
                       child: Row(

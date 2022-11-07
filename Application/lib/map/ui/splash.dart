@@ -187,7 +187,7 @@ late AnimationController _controller;
           ),
         ),
         Material(
-          color: Color.fromARGB(137, 49, 48, 48),
+          color: const Color.fromARGB(137, 49, 48, 48),
           child: Center(child: Image.asset('assets/image/logo3.png')),
         ),
         // Center(
@@ -195,7 +195,6 @@ late AnimationController _controller;
         //     'assets/46833-looping-energy-orb.json',
         //   ),
         // )
-
       ],
       // child: Material(
       //   color: Color.fromARGB(137, 49, 48, 48),

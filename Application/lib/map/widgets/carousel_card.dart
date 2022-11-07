@@ -5,8 +5,10 @@ import 'package:flutter_wavysmap_native/map/ui/splash.dart';
 import 'package:get/get.dart';
 
 import '../constants/restaurants.dart';
-
-Widget carouselCard(int index, num distance, num duration, BuildContext context) {
+//TODO: 距離計算を入れる場合は下記コメントアウトを使う
+// Widget carouselCard(int index, num distance, num duration, BuildContext context) {
+//距離計算なしバージョン
+Widget carouselCard(int index, BuildContext context) {
   final VideoController videoController = Get.put(VideoController());
 
   //videoController.videoListからtapされたカルーセルと同じvideoIDのリストを取得
