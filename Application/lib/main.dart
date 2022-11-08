@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -26,6 +27,9 @@ void main() async {
   // Firebase.initializeApp().then((value) {
     // Get.put(AuthController());
   // });
+    await FirebaseAnalytics.instance.logEvent(
+    name: 'MyApp',
+  );
     runApp(
     const ProviderScope(child: MyApp()),
   );
