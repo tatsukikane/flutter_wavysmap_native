@@ -8,6 +8,7 @@ import 'package:flutter_wavysmap_native/controllers/auth_controller.dart';
 import 'package:flutter_wavysmap_native/main.dart';
 import 'package:flutter_wavysmap_native/models/pin.dart';
 import 'package:flutter_wavysmap_native/views/screens/auth/login_screen.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
@@ -40,27 +41,6 @@ late AnimationController _controller;
     _controller = AnimationController(vsync: this);
     get();
     initializeLocationAndSave();
-    //簡易エラーハンドル(申請用)
-    // Future.delayed(
-    //   Duration(seconds: 10),
-    //   () =>{
-    //     showDialog(
-    //       context: context,
-    //       builder: (_){
-    //         return AlertDialog(
-    //           title: Text('このアプリは現在位置が日本国内以外の場合利用できません'),
-    //           content: Text('アプリを閉じてください。'),
-    //           // actions: <Widget>[
-    //           //   GestureDetector(
-    //           //     child: Text('はい'),
-    //           //     onTap: () {},
-    //           //   )
-    //           // ],
-    //         );
-    //       }
-    //     )
-    //   },
-    // );
   }
   //ユーザーブロック機能 ユーザーデフォルト
   final String? blockedUser = sharedPreferences.getString('blockedUser');
@@ -97,64 +77,100 @@ late AnimationController _controller;
               doc['longitude'],
           )).toList();
     }
-    // var collection = await FirebaseFirestore.instance.collection('pins').get();
-    // products = collection.docs.map((doc) => PinModel(
-    //         doc['username'],
-    //         doc['uid'],
-    //         doc['id'],
-    //         doc['videoId'],
-    //         doc['spotName'],
-    //         doc['caption'],
-    //         doc['videoUrl'],
-    //         doc['thumbnail'],
-    //         doc['latitude'],
-    //         doc['longitude'],
-    //     )).toList();
   }
 
   //位置情報の許可がされなかった際の初期値
-  Future<LocationData> getLocation() async {
-    return LocationData.fromMap(<String, double>{
+  Future<Position> getLocation() async {
+    return Position.fromMap(<String, double>{
       'latitude': 35.65980096106451,
       'longitude': 139.70081144278382,
     });
   }
 
   void initializeLocationAndSave() async {
-    // Ensure all permissions are collected for Locations
-    Location _location = Location();
-    bool? _serviceEnabled;
-    PermissionStatus? _permissionGranted;
     //初期位置情報
-    LocationData _locationData = await getLocation();
+    Position _locationData = await getLocation();
 
-    _serviceEnabled = await _location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _location.requestService();
-    }
+    //現在位置の許可と取得
+    Future<Position> _determinePosition() async {
+      bool serviceEnabled;
+      LocationPermission permission;
+      // Test if location services are enabled.
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      
+      if (!serviceEnabled) {
+        return Future.error('Location services are disabled.');
+      }
 
-    _permissionGranted = await _location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _location.requestPermission();
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return Future.error('Location permissions are denied');
+        }
+      }
+      
+      if (permission == LocationPermission.deniedForever) {
+        // Permissions are denied forever, handle appropriately. 
+        print('Location permissions are permanently denied, we cannot request permissions.');
+        return _locationData;
+        // return Future.error(
+        //   'Location permissions are permanently denied, we cannot request permissions.');
+      } 
+
+      // When we reach here, permissions are granted and we can
+      // continue accessing the position of the device.
+      return _locationData = await Geolocator.getCurrentPosition();
     }
+    await _determinePosition();
+    print("ウェイウェイ");
+    print(_locationData);
+
+//location.dartバージョン----------------------------
+  //位置情報の許可がされなかった際の初期値
+  // Future<LocationData> getLocation() async {
+  //   return LocationData.fromMap(<String, double>{
+  //     'latitude': 35.65980096106451,
+  //     'longitude': 139.70081144278382,
+  //   });
+  // }
+
+  // void initializeLocationAndSave() async {
+  //   // Ensure all permissions are collected for Locations
+  //   Location _location = Location();
+  //   bool? _serviceEnabled;
+  //   PermissionStatus? _permissionGranted;
+  //   //初期位置情報
+  //   LocationData _locationData = await getLocation();
+
+  //   _serviceEnabled = await _location.serviceEnabled();
+  //   if (!_serviceEnabled) {
+  //     _serviceEnabled = await _location.requestService();
+  //   }
+
+  //   _permissionGranted = await _location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await _location.requestPermission();
+  //   }
     
 
-    // ユーザーの現在地を取得
-    if(_serviceEnabled && _permissionGranted == PermissionStatus.granted){
-      _locationData = await _location.getLocation();
-    }
-    // _locationData = await _location.getLocation();
+  //   // ユーザーの現在地を取得
+  //   if(_serviceEnabled && _permissionGranted == PermissionStatus.granted){
+  //     _locationData = await _location.getLocation();
+  //   }
+
+//---------------------------------------
+
     print("ここ${_locationData}");
     LatLng currentLatLng =
-        LatLng(_locationData.latitude!, _locationData.longitude!);
+        LatLng(_locationData.latitude, _locationData.longitude);
 
     // sharedPreferencesにユーザーロケーションを格納
-    sharedPreferences.setDouble('latitude', _locationData.latitude!);
-    sharedPreferences.setDouble('longitude', _locationData.longitude!);
+    sharedPreferences.setDouble('latitude', _locationData.latitude);
+    sharedPreferences.setDouble('longitude', _locationData.longitude);
 
     // Get and store the directions API response in sharedPreferences
-
-
 
     // for (int i = 0; i < restaurants.length; i++) {
     // for (int i = 0; i < products.length; i++) {

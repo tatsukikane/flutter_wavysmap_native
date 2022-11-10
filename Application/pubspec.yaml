@@ -70,6 +70,7 @@ dependencies:
   flutter_launcher_icons: ^0.10.0
   webview_flutter: ^3.0.4
   firebase_analytics: ^9.3.8
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
