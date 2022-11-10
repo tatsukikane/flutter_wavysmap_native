@@ -124,7 +124,6 @@ late AnimationController _controller;
       return _locationData = await Geolocator.getCurrentPosition();
     }
     await _determinePosition();
-    print("ウェイウェイ");
     print(_locationData);
 
 //location.dartバージョン----------------------------

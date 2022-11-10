@@ -57,7 +57,7 @@ class AuthController extends GetxController {
     return File(pickedImage.path);
   }
 
-  // upload to firebase storage
+  // ストレージへプロフィール画像のアップロード
   Future<String> _uploadToStorage(File image) async {
     Reference ref = FirebaseStorage.instanceFor(bucket: "gs://user-prof-img")
         .ref()
@@ -70,7 +70,7 @@ class AuthController extends GetxController {
     return downloadUrl;
   }
 
-  // registering the user
+  // ユーザー登録
   void registerUser(
       String username, String email, String password, File? image) async {
     try {
@@ -108,6 +108,7 @@ class AuthController extends GetxController {
     }
   }
 
+  //ログイン
   void loginUser(String email, String password) async {
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
@@ -127,6 +128,7 @@ class AuthController extends GetxController {
     }
   }
 
+  //ログアウト
   void signOut() async {
     // print("サインアウト");
     // await Get.delete<ProfileController>();
@@ -134,6 +136,7 @@ class AuthController extends GetxController {
     // await Get.deleteAll();
   }
 
+  //アカウント削除
   void deleteAccount(uid) async {
     final user = FirebaseAuth.instance.currentUser;
     final targetUid = uid;

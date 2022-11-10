@@ -198,17 +198,20 @@ class VideoScreen extends StatelessWidget {
                                     ],
                                   ),
                                   Row(
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       const Icon(
                                         Icons.chat,
                                         size: 15,
                                         color: Colors.white,
                                       ),
-                                      Text(
-                                        data.caption,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white,
+                                      Flexible(
+                                        child: Text(
+                                          data.caption,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ],
