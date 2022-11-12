@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_wavysmap_native/main.dart';
-import 'package:flutter_wavysmap_native/map/helpers/shared_prefs.dart';
 import 'package:flutter_wavysmap_native/video_upload/video_upload.dart';
 import 'package:flutter_wavysmap_native/views/screens/board_add_screen.dart';
 import 'package:flutter_wavysmap_native/views/widgets/card.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/views/screens/confirm_screen.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,7 +14,6 @@ class AddVideoScreen extends ConsumerWidget {
 
   pickVideo(ImageSource src, BuildContext context) async {
     final video = await ImagePicker().pickVideo(source: src);
-    print("ここ");
     print(File(video!.path));
     print(video.path);
     if (video != null) {
@@ -176,39 +172,39 @@ class AddVideoScreen extends ConsumerWidget {
                 //     ),
                 //   ),
                 // ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 InkWell(
                   onTap: () => showOptionsDialog(context),
                   child: TransparentImageCard(
                     width: MediaQuery.of(context).size.height,
-                    imageProvider: AssetImage('assets/image/alien.jpeg'),
-                    title: Text(
+                    imageProvider: const AssetImage('assets/image/alien.jpeg'),
+                    title: const Text(
                       '動画投稿',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
-                    description: Text(
+                    description: const Text(
                       'カメラから動画を投稿',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 InkWell(
                   onTap: () => CloudStorageService().uploadVideo(ref, context),
                   child: TransparentImageCard(
                     width: MediaQuery.of(context).size.height,
-                    imageProvider: AssetImage('assets/image/alien2.jpeg'),
-                    title: Text(
+                    imageProvider: const AssetImage('assets/image/alien2.jpeg'),
+                    title: const Text(
                       '自動トリミング',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
-                    description: Text(
+                    description: const Text(
                       'おまかせ自動編集でサクッと投稿',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 InkWell(
                   onTap: (){
                     Navigator.push(
@@ -220,12 +216,12 @@ class AddVideoScreen extends ConsumerWidget {
                   },
                   child: TransparentImageCard(
                     width: MediaQuery.of(context).size.height,
-                    imageProvider: AssetImage('assets/icon.jpeg'),
-                    title: Text(
+                    imageProvider: const AssetImage('assets/icon.jpeg'),
+                    title: const Text(
                       '掲示板',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
-                    description: Text(
+                    description: const Text(
                       '自由に仲間を募集しよう',
                       style: TextStyle(color: Colors.white),
                     ),
