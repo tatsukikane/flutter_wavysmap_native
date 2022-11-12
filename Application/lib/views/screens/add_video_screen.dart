@@ -90,6 +90,7 @@ class AddVideoScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
@@ -172,7 +173,7 @@ class AddVideoScreen extends ConsumerWidget {
                 //     ),
                 //   ),
                 // ),
-                const SizedBox(height: 24),
+                SizedBox(height: screenHeight / 33),
                 InkWell(
                   onTap: () => showOptionsDialog(context),
                   child: TransparentImageCard(
@@ -188,7 +189,7 @@ class AddVideoScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: screenHeight / 33),
                 InkWell(
                   onTap: () => CloudStorageService().uploadVideo(ref, context),
                   child: TransparentImageCard(
@@ -199,12 +200,12 @@ class AddVideoScreen extends ConsumerWidget {
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
                     description: const Text(
-                      'おまかせ自動編集でサクッと投稿',
+                      'おまかせ自動編集でサクッと投稿(BMX限定)',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: screenHeight / 33),
                 InkWell(
                   onTap: (){
                     Navigator.push(

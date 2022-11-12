@@ -1,12 +1,11 @@
-//単体動画再生テスト OK
 import 'package:flutter/material.dart';
-import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/controllers/video_controller.dart';
 import 'package:flutter_wavysmap_native/views/screens/comment_screen.dart';
+import 'package:flutter_wavysmap_native/views/screens/video_latlang_map_screen.dart';
 import 'package:flutter_wavysmap_native/views/widgets/circle_animation.dart';
 import 'package:flutter_wavysmap_native/views/widgets/video_player_item.dart';
-
 import 'package:get/get.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 
 class profile_video_dialog extends StatefulWidget {
@@ -90,16 +89,52 @@ class _video_dialogState extends State<profile_video_dialog> {
           VideoPlayerItem(
             videoUrl: widget.videodeta["videoUrl"],
           ),
+          //動画削除機能
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const SizedBox(height: 96),
+              InkWell(
+                onTap: (){
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return SimpleDialog(
+                        title: const Text("投稿を削除する"),
+                        children: <Widget>[
+                          SimpleDialogOption(
+                            onPressed: () => {
+                              //TODO: 動画削除関数を作る　削除完了後の表示も
+                              print("動画削除機能実装予定")
+                            },
+                            child: const Text("はい"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  child: const Icon(
+                    Icons.delete_outline,
+                    size: 32,
+                  ),
+                )
+              ),
+            ],
+          ),
           Column(
             children: [
               const SizedBox(
-                height: 100,
+                height: 56,
               ),
               Expanded(
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    //画面下部
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.only(
@@ -119,13 +154,6 @@ class _video_dialogState extends State<profile_video_dialog> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                              widget.videodeta["caption"],
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                              ),
-                            ),
                             Row(
                               children: [
                                 const Icon(
@@ -142,49 +170,44 @@ class _video_dialogState extends State<profile_video_dialog> {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.place,
+                                  size: 15,
+                                  color: Colors.white,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    widget.videodeta["caption"],
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                     ),
+                    //画面右部
                     Container(
-                      width: 56,
+                      width: 64,
                       margin: EdgeInsets.only(top: size.height / 3),
                       child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           buildProfile(
                             widget.videodeta["profilePhoto"],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Column(
                             children: [
-                              InkWell(
-                                onTap: () =>
-                                    videoController.likeVideo(widget.videodeta["id"]),
-                                child: Icon(
-                                  Icons.favorite,
-                                  size: 32,
-                                  color: widget.videodeta["likes"].contains(
-                                          authController.user.uid)
-                                      ? Colors.red
-                                      : Colors.white,
-                                ),
-                              ),
-                              // const SizedBox(height: 7),
-                              Text(
-                                widget.videodeta["likes"].length.toString(),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               InkWell(
                                 onTap: () => Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -199,7 +222,6 @@ class _video_dialogState extends State<profile_video_dialog> {
                                   color: Colors.white,
                                 ),
                               ),
-                              // const SizedBox(height: 7),
                               Text(
                                 widget.videodeta["commentCount"].toString(),
                                 style: const TextStyle(
@@ -209,26 +231,24 @@ class _video_dialogState extends State<profile_video_dialog> {
                               )
                             ],
                           ),
-                          // Column(
-                          //   children: [
-                          //     InkWell(
-                          //       onTap: () {},
-                          //       child: const Icon(
-                          //         Icons.reply,
-                          //         size: 40,
-                          //         color: Colors.white,
-                          //       ),
-                          //     ),
-                          //     const SizedBox(height: 7),
-                          //     Text(
-                          //       widget.videodeta["shareCount"].toString(),
-                          //       style: const TextStyle(
-                          //         fontSize: 20,
-                          //         color: Colors.white,
-                          //       ),
-                          //     )
-                          //   ],
-                          // ),
+                          const SizedBox(height: 16),
+                          InkWell(
+                            onTap: (){
+                              LatLng position = LatLng(widget.videodeta["latitude"], widget.videodeta["longitude"]);
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(
+                                  builder: (context) => VideoLatlangMap(position: position)
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "🌏",
+                              style: TextStyle(
+                                fontSize: 32
+                              ),
+                            ),
+                          ),
                           CircleAnimation(
                             child: SizedBox(
                               width: 80,

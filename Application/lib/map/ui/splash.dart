@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +8,8 @@ import 'package:flutter_wavysmap_native/models/pin.dart';
 import 'package:flutter_wavysmap_native/views/screens/auth/login_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:flutter_wavysmap_native/map/constants/restaurants.dart';
-import 'package:flutter_wavysmap_native/map/get_firestore/spot_model.dart';
-import 'package:flutter_wavysmap_native/map/main.dart';
-
-import '../helpers/directions_handler.dart';
-import '../screens/home_management.dart';
-
 
 List<PinModel> products = [];
 

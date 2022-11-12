@@ -95,19 +95,19 @@ class VideoScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(height: 96,),
+                    const SizedBox(height: 96,),
                      InkWell(
                       onTap: (){
                         showDialog(
                           context: context,
                           builder: (context) {
                             return SimpleDialog(
-                              title: Text("ヘルプページ"),
+                              title: const Text("ヘルプページ"),
                               children: <Widget>[
                                 //投稿報告
                                 SimpleDialogOption(
                                   onPressed: () => infoDialogController.addInfo(data.id),
-                                  child: Text("投稿を報告する"),
+                                  child: const Text("投稿を報告する"),
                                 ),
                                 SimpleDialogOption(
                                   onPressed: ()async{
@@ -133,8 +133,8 @@ class VideoScreen extends StatelessWidget {
                         );
                       },
                       child: Container(
-                        margin: EdgeInsets.only(right: 16, top: 8),
-                        child: Icon(
+                        margin: const EdgeInsets.only(right: 16, top: 16),
+                        child: const Icon(
                           Icons.help_outline,
                           size: 32,
                         ),
@@ -229,7 +229,7 @@ class VideoScreen extends StatelessWidget {
                                 buildProfile(
                                   data.profilePhoto,
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Column(
                                   children: [
                                     InkWell(
@@ -256,7 +256,7 @@ class VideoScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: [
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                     InkWell(
                                       onTap: () => Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -284,9 +284,7 @@ class VideoScreen extends StatelessWidget {
                                 const SizedBox(height: 8),
                                 InkWell(
                                   onTap: (){
-                                    //TODO: Pin立てた状態のMap上に飛ばす
                                     LatLng position = LatLng(data.latitude, data.longitude);
-                                    print(position);
                                     Navigator.push(
                                       context, 
                                       MaterialPageRoute(
@@ -323,7 +321,7 @@ class VideoScreen extends StatelessWidget {
                                 //     )
                                 //   ],
                                 // ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 CircleAnimation(
                                   child: buildMusicAlbum(data.profilePhoto),
                                 ),
