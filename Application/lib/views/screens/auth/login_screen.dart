@@ -128,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        '入力なしで今すぐ使ってみる',
+                        '今すぐ使ってみる',
                         style: TextStyle(
                           fontSize: 16,
                         ),

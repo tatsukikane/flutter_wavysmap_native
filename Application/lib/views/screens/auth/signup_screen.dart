@@ -276,6 +276,27 @@ Future<void> _errorDialog(message) async {
                           ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '今すぐ使ってみる',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => authController.loginGuestUser(),
+                            child: Text(
+                              'ゲスト',
+                              style: TextStyle(fontSize: 20, color: buttonColor),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
