@@ -34,7 +34,7 @@ Future<void> _showStartDialog() async {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('利用規約'),
+          title: const Text('利用規約'),
           content: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 2,
@@ -45,7 +45,7 @@ Future<void> _showStartDialog() async {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('同意しない'),
+              child: const Text('同意しない'),
             ),
             TextButton(
               onPressed:() {
@@ -53,7 +53,7 @@ Future<void> _showStartDialog() async {
                 Navigator.pop(context);
               },
               // onPressed: () => Navigator.pop(context),
-              child: Text('同意する'),
+              child: const Text('同意する'),
             ),
           ],
         );
@@ -67,11 +67,11 @@ Future<void> _errorDialog(message) async {
     context: context,
     builder: (context) {
       return CupertinoAlertDialog(
-        title: Text("入力エラー"),
+        title: const Text("入力エラー"),
         content: Text(message),
         actions: <Widget>[
           CupertinoDialogAction(
-            child: Text("OK"),
+            child: const Text("OK"),
             onPressed: () => Navigator.pop(context),
           ),
         ],
@@ -91,190 +91,193 @@ Future<void> _errorDialog(message) async {
   Widget build(BuildContext context) {
     final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
     return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Center(
-          child: SingleChildScrollView(
-            reverse: true,
-            child: Padding(
-              padding:  EdgeInsets.only(bottom: bottomSpace),
-              child: Container(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Wavy's Map",
-                      style: TextStyle(
-                        fontSize: 35,
-                        color: buttonColor,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Stack(
-                      children: [
-                        InkWell(
-                          onTap: () async{
-                              filepath = await authController.pickImage();
-                              setState(() {
-                                pickedImage = FileImage(filepath);
-                              });
-                            },
-                          child: CircleAvatar(
-                            radius: 64,
-                            backgroundImage: pickedImage,
-                            backgroundColor: Color.fromARGB(255, 100, 181, 246),
-                          ),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Center(
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Padding(
+                padding:  EdgeInsets.only(bottom: bottomSpace),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Wavy's Map",
+                        style: TextStyle(
+                          fontSize: 35,
+                          color: buttonColor,
+                          fontWeight: FontWeight.w900,
                         ),
-                        Positioned(
-                          bottom: -10,
-                          left: 80,
-                          child: IconButton(
-                            onPressed: () async{
-                              filepath = await authController.pickImage();
-                              setState(() {
-                                pickedImage = FileImage(filepath);
-                              });
-                            },
-                            // onPressed: () => authController.pickImage(),
-                            icon: const Icon(
-                              Icons.add_a_photo,
+                      ),
+                      const Text(
+                        'Register',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Stack(
+                        children: [
+                          InkWell(
+                            onTap: () async{
+                                filepath = await authController.pickImage();
+                                setState(() {
+                                  pickedImage = FileImage(filepath);
+                                });
+                              },
+                            child: CircleAvatar(
+                              radius: 64,
+                              backgroundImage: pickedImage,
+                              backgroundColor: const Color.fromARGB(255, 100, 181, 246),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextInputField(
-                        controller: _usernameController,
-                        labelText: 'Username',
-                        icon: Icons.person,
+                          Positioned(
+                            bottom: -10,
+                            left: 80,
+                            child: IconButton(
+                              onPressed: () async{
+                                filepath = await authController.pickImage();
+                                setState(() {
+                                  pickedImage = FileImage(filepath);
+                                });
+                              },
+                              // onPressed: () => authController.pickImage(),
+                              icon: const Icon(
+                                Icons.add_a_photo,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextInputField(
-                        controller: _emailController,
-                        labelText: 'Email',
-                        icon: Icons.email,
+                      const SizedBox(
+                        height: 15,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextInputField(
-                        controller: _passwordController,
-                        labelText: 'Password',
-                        icon: Icons.lock,
-                        isObscure: true,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 40,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: buttonColor,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(5),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextInputField(
+                          controller: _usernameController,
+                          labelText: 'Username',
+                          icon: Icons.person,
                         ),
                       ),
-                      child: InkWell(
-                        onTap: (){
-                          //利用規約の同意可否判断
-                          if (agree == 1){
-                            //入力チェック
-                            if(_usernameController.text == "" || _emailController.text == "" || _passwordController.text == ""){
-                              _errorDialog("全項目入力してください。");
-                              //画像選択チェック
-                            }else if(filepath == null){
-                              _errorDialog("プロフィール画像を設定してください。");
-                            }else{
-                              authController.registerUser(
-                                _usernameController.text,
-                                _emailController.text,
-                                _passwordController.text,
-                                authController.profilePhoto,
-                              );
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextInputField(
+                          controller: _emailController,
+                          labelText: 'Email',
+                          icon: Icons.email,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextInputField(
+                          controller: _passwordController,
+                          labelText: 'Password',
+                          icon: Icons.lock,
+                          isObscure: true,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 40,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: buttonColor,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                        ),
+                        child: InkWell(
+                          onTap: (){
+                            //利用規約の同意可否判断
+                            if (agree == 1){
+                              //入力チェック
+                              if(_usernameController.text == "" || _emailController.text == "" || _passwordController.text == ""){
+                                _errorDialog("全項目入力してください。");
+                                //画像選択チェック
+                              }else if(filepath == null){
+                                _errorDialog("プロフィール画像を設定してください。");
+                              }else{
+                                authController.registerUser(
+                                  _usernameController.text,
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  authController.profilePhoto,
+                                );
+                              }
+                              // authController.registerUser(
+                              //   _usernameController.text,
+                              //   _emailController.text,
+                              //   _passwordController.text,
+                              //   authController.profilePhoto,
+                              // );
+                            } else {
+                              Get.snackbar('新規登録',
+                                '登録する場合は、利用規約に同意してください');
                             }
-                            // authController.registerUser(
-                            //   _usernameController.text,
-                            //   _emailController.text,
-                            //   _passwordController.text,
-                            //   authController.profilePhoto,
-                            // );
-                          } else {
-                            Get.snackbar('新規登録',
-                              '登録する場合は、利用規約に同意してください');
-                          }
-                        },
-                        // onTap: () => authController.registerUser(
-                        //   _usernameController.text,
-                        //   _emailController.text,
-                        //   _passwordController.text,
-                        //   authController.profilePhoto,
-                        // ),
-                        child: const Center(
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
+                          },
+                          // onTap: () => authController.registerUser(
+                          //   _usernameController.text,
+                          //   _emailController.text,
+                          //   _passwordController.text,
+                          //   authController.profilePhoto,
+                          // ),
+                          child: const Center(
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Already have an account? ',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'アカウントをすでにお持ちの場合',
+                            style: TextStyle(
+                              fontSize: 16,
                             ),
                           ),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(fontSize: 20, color: buttonColor),
+                          InkWell(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(),
+                              ),
+                            ),
+                            child: Text(
+                              'ログイン',
+                              style: TextStyle(fontSize: 20, color: buttonColor),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
