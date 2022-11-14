@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_wavysmap_native/controllers/profile_controller.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/models/user.dart' as model;
@@ -116,8 +114,8 @@ class AuthController extends GetxController {
             email: email, password: password);
       } else {
         Get.snackbar(
-          'Error Logging in',
-          'Please enter all the fields',
+          'エラー',
+          'すべての項目を入力してください。',
         );
       }
     } catch (e) {
@@ -125,6 +123,19 @@ class AuthController extends GetxController {
         'Error Loggin gin',
         e.toString(),
       );
+    }
+  }
+
+  //匿名ログイン
+  Future<void> loginGuestUser() async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    try{
+      await firebaseAuth.signInAnonymously();
+    } catch(e) {
+        Get.snackbar(
+          'エラー',
+          '${e.toString()}',
+        );
     }
   }
 

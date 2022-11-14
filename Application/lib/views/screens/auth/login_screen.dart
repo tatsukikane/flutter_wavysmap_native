@@ -134,11 +134,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SignupScreen(),
-                          ),
-                        ),
+                        onTap: () => authController.loginGuestUser(),
                         child: Text(
                           'ゲスト',
                           style: TextStyle(fontSize: 20, color: buttonColor),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/controllers/info_dialog.dart';
 import 'package:flutter_wavysmap_native/controllers/video_controller.dart';
-import 'package:flutter_wavysmap_native/map/ui/splash.dart';
 import 'package:flutter_wavysmap_native/views/screens/comment_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/video_latlang_map_screen.dart';
 import 'package:flutter_wavysmap_native/views/widgets/circle_animation.dart';
@@ -233,8 +232,14 @@ class VideoScreen extends StatelessWidget {
                                 Column(
                                   children: [
                                     InkWell(
-                                      onTap: () =>
-                                          videoController.likeVideo(data.id),
+                                      onTap: () {
+                                        if(authController.user.isAnonymous){
+                                          Get.snackbar('いいね機能',
+                                            '利用するには、アカウント登録が必要です。');
+                                        } else {
+                                          videoController.likeVideo(data.id);
+                                        }
+                                      },
                                       child: Icon(
                                         Icons.favorite,
                                         size: 32,
@@ -258,13 +263,20 @@ class VideoScreen extends StatelessWidget {
                                   children: [
                                   const SizedBox(height: 8),
                                     InkWell(
-                                      onTap: () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => CommentScreen(
-                                            id: data.id,
-                                          ),
-                                        ),
-                                      ),
+                                      onTap: () {
+                                        if(authController.user.isAnonymous){
+                                          Get.snackbar('コメント機能',
+                                            '利用するには、アカウント登録が必要です。');
+                                        } else {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => CommentScreen(
+                                                id: data.id,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
                                       child: const Icon(
                                         Icons.comment,
                                         size: 32,

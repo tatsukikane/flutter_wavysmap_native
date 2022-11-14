@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_wavysmap_native/constants.dart';
 import 'package:flutter_wavysmap_native/video_upload/video_upload.dart';
+import 'package:flutter_wavysmap_native/views/screens/auth/login_screen.dart';
+import 'package:flutter_wavysmap_native/views/screens/auth/signup_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/board_add_screen.dart';
 import 'package:flutter_wavysmap_native/views/widgets/card.dart';
 import 'package:image_picker/image_picker.dart';
@@ -91,6 +94,43 @@ class AddVideoScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenHeight = MediaQuery.of(context).size.height;
+    if (authController.user.isAnonymous){
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/image/alien3.png'),
+              const Text(
+                "アカウント登録が必要です。",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height:24),
+              ElevatedButton(
+                onPressed: () {
+                  authController.signOut();        
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: const Text(
+                  'アカウント作成',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          )
+        ),
+      );
+    }
     return Scaffold(
       body: Stack(
         children: [

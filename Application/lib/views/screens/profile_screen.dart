@@ -5,7 +5,6 @@ import 'package:flutter_wavysmap_native/controllers/profile_controller.dart';
 import 'package:flutter_wavysmap_native/views/screens/delete_account_screen.dart';
 import 'package:flutter_wavysmap_native/views/screens/profile_video_dialog.dart';
 import 'package:flutter_wavysmap_native/views/user_search_screen.dart';
-import 'package:flutter_wavysmap_native/views/user_search_screen.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -33,16 +32,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) {
-        if (controller.user.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
+        // if (controller.user.isEmpty) {
+        //   return const Center(
+        //     child: CircularProgressIndicator(),
+        //   );
+        // }
+        if (authController.user.isAnonymous) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/image/alien2.png'),
+                  const Text(
+                    "アカウント登録が必要です。",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height:24),
+                  ElevatedButton(
+                    onPressed: () {
+                      authController.signOut();         
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: const Text(
+                      'アカウント作成',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ),
           );
+        } else if (controller.user.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator()
+            );
         }
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black12,
             leading: IconButton(
-              icon: Icon(Icons.person_add_alt_1_outlined),
+              icon: const Icon(Icons.person_add_alt_1_outlined),
               onPressed: (){
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -53,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             actions: [
               InkWell(
-                child: Icon(Icons.more_horiz),
+                child: const Icon(Icons.more_horiz),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
