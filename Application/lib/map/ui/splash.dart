@@ -20,9 +20,9 @@ class Splash extends StatefulWidget {
   State<Splash> createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> with TickerProviderStateMixin{
+class _SplashState extends State<Splash> with TickerProviderStateMixin {
 //アニメーション用
-late AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -32,40 +32,48 @@ late AnimationController _controller;
     get();
     initializeLocationAndSave();
   }
+
   //ユーザーブロック機能 ユーザーデフォルト
   final String? blockedUser = sharedPreferences.getString('blockedUser');
 
-
-  Future get() async{
+  Future get() async {
     //TODO: ユーザーブロック機能 Mapフィルタリング
-    if (blockedUser != null){
-      var collection = await FirebaseFirestore.instance.collection('pins').where('uid', isNotEqualTo: blockedUser).get();
-      products = collection.docs.map((doc) => PinModel(
-              doc['username'],
-              doc['uid'],
-              doc['id'],
-              doc['videoId'],
-              doc['spotName'],
-              doc['caption'],
-              doc['videoUrl'],
-              doc['thumbnail'],
-              doc['latitude'],
-              doc['longitude'],
-          )).toList();
-    } else{
-      var collection = await FirebaseFirestore.instance.collection('pins').get();
-      products = collection.docs.map((doc) => PinModel(
-              doc['username'],
-              doc['uid'],
-              doc['id'],
-              doc['videoId'],
-              doc['spotName'],
-              doc['caption'],
-              doc['videoUrl'],
-              doc['thumbnail'],
-              doc['latitude'],
-              doc['longitude'],
-          )).toList();
+    if (blockedUser != null) {
+      var collection = await FirebaseFirestore.instance
+          .collection('pins')
+          .where('uid', isNotEqualTo: blockedUser)
+          .get();
+      products = collection.docs
+          .map((doc) => PinModel(
+                doc['username'],
+                doc['uid'],
+                doc['id'],
+                doc['videoId'],
+                doc['spotName'],
+                doc['caption'],
+                doc['videoUrl'],
+                doc['thumbnail'],
+                doc['latitude'],
+                doc['longitude'],
+              ))
+          .toList();
+    } else {
+      var collection =
+          await FirebaseFirestore.instance.collection('pins').get();
+      products = collection.docs
+          .map((doc) => PinModel(
+                doc['username'],
+                doc['uid'],
+                doc['id'],
+                doc['videoId'],
+                doc['spotName'],
+                doc['caption'],
+                doc['videoUrl'],
+                doc['thumbnail'],
+                doc['latitude'],
+                doc['longitude'],
+              ))
+          .toList();
     }
   }
 
@@ -87,7 +95,7 @@ late AnimationController _controller;
       LocationPermission permission;
       // Test if location services are enabled.
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      
+
       if (!serviceEnabled) {
         return Future.error('Location services are disabled.');
       }
@@ -100,54 +108,52 @@ late AnimationController _controller;
           return Future.error('Location permissions are denied');
         }
       }
-      
+
       if (permission == LocationPermission.deniedForever) {
-        // Permissions are denied forever, handle appropriately. 
-        print('Location permissions are permanently denied, we cannot request permissions.');
+        print(
+            'Location permissions are permanently denied, we cannot request permissions.');
         return _locationData;
-        // return Future.error(
-        //   'Location permissions are permanently denied, we cannot request permissions.');
-      } 
+      }
 
       // When we reach here, permissions are granted and we can
       // continue accessing the position of the device.
       return _locationData = await Geolocator.getCurrentPosition();
     }
+
     await _determinePosition();
     print(_locationData);
 
 //location.dartバージョン----------------------------
-  //位置情報の許可がされなかった際の初期値
-  // Future<LocationData> getLocation() async {
-  //   return LocationData.fromMap(<String, double>{
-  //     'latitude': 35.65980096106451,
-  //     'longitude': 139.70081144278382,
-  //   });
-  // }
+    //位置情報の許可がされなかった際の初期値
+    // Future<LocationData> getLocation() async {
+    //   return LocationData.fromMap(<String, double>{
+    //     'latitude': 35.65980096106451,
+    //     'longitude': 139.70081144278382,
+    //   });
+    // }
 
-  // void initializeLocationAndSave() async {
-  //   // Ensure all permissions are collected for Locations
-  //   Location _location = Location();
-  //   bool? _serviceEnabled;
-  //   PermissionStatus? _permissionGranted;
-  //   //初期位置情報
-  //   LocationData _locationData = await getLocation();
+    // void initializeLocationAndSave() async {
+    //   // Ensure all permissions are collected for Locations
+    //   Location _location = Location();
+    //   bool? _serviceEnabled;
+    //   PermissionStatus? _permissionGranted;
+    //   //初期位置情報
+    //   LocationData _locationData = await getLocation();
 
-  //   _serviceEnabled = await _location.serviceEnabled();
-  //   if (!_serviceEnabled) {
-  //     _serviceEnabled = await _location.requestService();
-  //   }
+    //   _serviceEnabled = await _location.serviceEnabled();
+    //   if (!_serviceEnabled) {
+    //     _serviceEnabled = await _location.requestService();
+    //   }
 
-  //   _permissionGranted = await _location.hasPermission();
-  //   if (_permissionGranted == PermissionStatus.denied) {
-  //     _permissionGranted = await _location.requestPermission();
-  //   }
-    
+    //   _permissionGranted = await _location.hasPermission();
+    //   if (_permissionGranted == PermissionStatus.denied) {
+    //     _permissionGranted = await _location.requestPermission();
+    //   }
 
-  //   // ユーザーの現在地を取得
-  //   if(_serviceEnabled && _permissionGranted == PermissionStatus.granted){
-  //     _locationData = await _location.getLocation();
-  //   }
+    //   // ユーザーの現在地を取得
+    //   if(_serviceEnabled && _permissionGranted == PermissionStatus.granted){
+    //     _locationData = await _location.getLocation();
+    //   }
 
 //---------------------------------------
 
@@ -172,14 +178,9 @@ late AnimationController _controller;
       Get.put(AuthController());
     });
 
-    Navigator.pushAndRemoveUntil(
-        context,
-        // MaterialPageRoute(builder: (_) => const HomeManagement()),
-        MaterialPageRoute(builder: (_) => LoginScreen()),
-        (route) => false);
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -195,16 +196,7 @@ late AnimationController _controller;
           color: const Color.fromARGB(137, 49, 48, 48),
           child: Center(child: Image.asset('assets/image/logo3.png')),
         ),
-        // Center(
-        //   child: Lottie.asset(
-        //     'assets/46833-looping-energy-orb.json',
-        //   ),
-        // )
       ],
-      // child: Material(
-      //   color: Color.fromARGB(137, 49, 48, 48),
-      //   child: Center(child: Image.asset('assets/image/logo_blue2.png')),
-      // ),
     );
   }
 }

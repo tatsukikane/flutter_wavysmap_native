@@ -17,45 +17,27 @@ late SharedPreferences sharedPreferences;
 //stateを使うため
 final navigatorKey = GlobalKey<NavigatorState>();
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-//   );
-//   sharedPreferences = await SharedPreferences.getInstance();
-//   await dotenv.load(fileName: "assets/config/.env");
-//   // Firebase.initializeApp().then((value) {
-//     // Get.put(AuthController());
-//   // });
-//     await FirebaseAnalytics.instance.logEvent(
-//     name: 'MyApp',
-//   );
-//     runApp(
-//     const ProviderScope(child: MyApp()),
-//   );
-// }
-
 Future<void> main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    sharedPreferences = await SharedPreferences.getInstance();
-    await dotenv.load(fileName: "assets/config/.env");
-    await FirebaseAnalytics.instance.logEvent(
-      name: 'MyApp',
-    );
-    FlutterError.onError = (errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-    };
-    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-    PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-    runApp(
-      const ProviderScope(child: MyApp()),
-    );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  sharedPreferences = await SharedPreferences.getInstance();
+  await dotenv.load(fileName: "assets/config/.env");
+  await FirebaseAnalytics.instance.logEvent(
+    name: 'MyApp',
+  );
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  runApp(
+    const ProviderScope(child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -69,7 +51,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: backgroundColor,
       ),
-      // home: LoginScreen(),
       home: const Splash(),
     );
   }

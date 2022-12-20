@@ -32,11 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) {
-        // if (controller.user.isEmpty) {
-        //   return const Center(
-        //     child: CircularProgressIndicator(),
-        //   );
-        // }
         if (authController.user.isAnonymous) {
           return Scaffold(
             body: Center(
