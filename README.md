@@ -3,6 +3,7 @@
 
 **AppStore**
 https://apps.apple.com/jp/app/wavys-map/id6443888444
+
 **デモ動画**
 https://www.youtube.com/watch?v=7M5aQ03tC7U
 
